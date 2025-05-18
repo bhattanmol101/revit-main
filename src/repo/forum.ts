@@ -1,7 +1,12 @@
-import { desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { forumTable, InsertForum } from "@/db/schema/forum";
+import {
+  forumTable,
+  forumUserTable,
+  InsertForum,
+  InsertForumUser,
+} from "@/db/schema/forum";
 import { profileTable } from "@/db/schema/user";
 import { forumPostTable, InsertForumPost } from "@/db/schema/post";
 import { forumReviewTable } from "@/db/schema/review";
@@ -15,11 +20,11 @@ export async function insertForum(forum: InsertForum) {
   return res[0].forumId;
 }
 
-export async function fetchForumById(forumId: string) {
+export async function fetchForumById(userId: string, forumId: string) {
   const rows = await db
     .select({
       id: forumTable.id,
-      userName: profileTable.name,
+      userName: profileTable.name, // rename to admin TODO
       userProfileImage: profileTable.profileImage,
       adminId: forumTable.adminId,
       name: forumTable.name,
@@ -27,6 +32,13 @@ export async function fetchForumById(forumId: string) {
       description: forumTable.description,
       industry: forumTable.industry,
       createdAt: forumTable.createdAt,
+      joined: db.$count(
+        forumUserTable,
+        and(
+          eq(forumUserTable.forumId, forumId),
+          eq(forumUserTable.userId, userId)
+        )
+      ),
     })
     .from(forumTable)
     .innerJoin(profileTable, eq(forumTable.adminId, profileTable.id))
@@ -44,7 +56,7 @@ export async function insertForumPost(forumPost: InsertForumPost) {
   return res[0].postId;
 }
 
-export async function fetchAllPostByForumId(forumId: string) {
+export async function fetchPostsByForumId(forumId: string) {
   const rows = await db
     .select({
       id: forumPostTable.id,
@@ -108,4 +120,13 @@ export async function fetchUserCreatedForums(userId: string) {
     .orderBy(desc(forumTable.createdAt));
 
   return rows;
+}
+
+export async function inserUserToForumById(forumUser: InsertForumUser) {
+  const rows = await db
+    .insert(forumUserTable)
+    .values(forumUser)
+    .returning({ forumUserId: forumTable.id });
+
+  return rows[0].forumUserId;
 }

@@ -2,8 +2,8 @@ import { InsertForum } from "@/db/schema/forum";
 import { InsertForumPost } from "@/db/schema/post";
 import { ForumPostRequest, ForumRequest } from "../types/forum";
 import {
-  fetchAllPostByForumId,
   fetchForumById,
+  fetchPostsByForumId,
   fetchTopForums,
   fetchUserCreatedForums,
   insertForum,
@@ -28,12 +28,13 @@ export async function saveForum(forumRequest: ForumRequest) {
   }
 }
 
-export async function getForumById(forumId: string) {
+export async function getForumById(userId: string, forumId: string) {
   try {
-    const resp = await fetchForumById(forumId);
+    const resp = await fetchForumById(userId, forumId);
 
     return resp;
   } catch (e: any) {
+    console.log(e);
     return null;
   }
 }
@@ -48,32 +49,25 @@ export async function saveForumPost(forumPostRequest: ForumPostRequest) {
       hashtags: forumPostRequest.hashtags,
     };
 
-    await insertForumPost(insertForumPostT);
+    const id = await insertForumPost(insertForumPostT);
 
-    return { success: true, error: "" };
+    return id;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-    };
+    return null;
   }
 }
 
-export async function getAllForumPost(
+export async function getForumPosts(
   forumId: string,
   offset: number,
   limit: number
 ) {
   try {
-    const resp = await fetchAllPostByForumId(forumId);
+    const resp = await fetchPostsByForumId(forumId);
 
-    return { success: true, posts: resp };
+    return resp;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-      posts: [],
-    };
+    return null;
   }
 }
 

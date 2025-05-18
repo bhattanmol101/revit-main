@@ -13,6 +13,7 @@ export type ForumT = {
   adminId: string;
   logo: string | null;
   name: string;
+  joined: number;
   industry: string;
   description: string;
   createdAt: Date;
@@ -26,7 +27,7 @@ export interface ForumPostRequest {
   hashtags?: string[];
 }
 
-export interface ForumPostFeed {
+export interface ForumPost {
   id: string;
   userId: string;
   forumId: string;

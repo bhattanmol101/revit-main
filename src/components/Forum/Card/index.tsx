@@ -2,12 +2,20 @@
 
 import { ForumT } from "@/src/types/forum";
 import { getPostDateString } from "@/src/utils/date-utils";
+import { routes } from "@/src/utils/routes";
 import { Card, CardHeader, CardBody } from "@heroui/card";
 import { User } from "@heroui/user";
+import { useRouter } from "next/navigation";
 
 export default function ForumCard({ forum }: { forum: ForumT }) {
+  const router = useRouter();
+
+  const onPress = () => {
+    router.push(`${routes.forums}/${forum.id}`);
+  };
+
   return (
-    <Card className="w-full my-1">
+    <Card key={forum.id} className="w-full my-1" isPressable onPress={onPress}>
       <CardHeader className="justify-between">
         <User
           avatarProps={{

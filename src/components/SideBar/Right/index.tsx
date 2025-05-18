@@ -53,12 +53,12 @@ const RightSideBar = () => {
   };
 
   const handlePathNameUpdate = async () => {
-    switch (pathName) {
-      case routes.home:
+    switch (true) {
+      case pathName.includes(routes.home):
         fetchTopPost();
         setTitle("Top Reviews");
         break;
-      case routes.forums:
+      case pathName.includes(routes.forums):
         fetchTopForums();
         setTitle("Top Forums to Join");
         break;
@@ -72,10 +72,10 @@ const RightSideBar = () => {
   }, [pathName]);
 
   const handleRender = () => {
-    switch (pathName) {
-      case routes.home:
+    switch (true) {
+      case pathName.includes(routes.home):
         return post && renderPost(post);
-      case routes.forums:
+      case pathName.includes(routes.forums):
         return forums.length ? forums.flatMap(renderForum) : <></>;
       default:
         console.log("default");

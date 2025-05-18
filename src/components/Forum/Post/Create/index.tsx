@@ -1,6 +1,5 @@
 "use client";
 
-import { savePostAction } from "@/src/app/(site)/(home)/home/action";
 import { useSession } from "@/src/components/Provider";
 import { PageState } from "@/src/types";
 import { Button } from "@heroui/button";
@@ -13,25 +12,28 @@ import {
   ModalFooter,
 } from "@heroui/modal";
 import { useState } from "react";
-import FileInputSlider from "../../Common/File/Input/Slider";
-import FileInput from "../../Common/File/Input";
+import FileInputSlider from "../../../Common/File/Input/Slider";
+import FileInput from "../../../Common/File/Input";
 import { ImageIcon } from "@/src/components/Icons";
 import { Alert } from "@heroui/react";
 import { POST_MAX_FILE_LIMIT, POST_MAX_FILE_SIZE } from "@/src/utils/constants";
+import { ForumPostRequest, ForumT } from "@/src/types/forum";
+import { saveForumPostAction } from "@/src/app/(site)/(home)/forums/action";
 
-type PostCreateModalProps = {
+type ForumPostCreateModalProps = {
+  forum: ForumT;
   isOpen: boolean;
   onOpenChange: () => void;
 };
 
-export default function PostCreateModal(props: PostCreateModalProps) {
+export default function ForumPostCreateModal(props: ForumPostCreateModalProps) {
   const { user } = useSession();
 
   if (!user) {
     return;
   }
 
-  const { isOpen, onOpenChange } = props;
+  const { forum, isOpen, onOpenChange } = props;
 
   const [pageState, setPageState] = useState<PageState>({
     loading: false,
@@ -97,10 +99,15 @@ export default function PostCreateModal(props: PostCreateModalProps) {
     setPageState({
       ...pageState,
       loading: true,
-      error: "",
     });
 
-    const res = await savePostAction(user.id, text, files);
+    const req: ForumPostRequest = {
+      userId: user.id,
+      forumId: forum.id,
+      text: text,
+    };
+
+    const res = await saveForumPostAction(req, files);
 
     setPageState({
       ...pageState,
@@ -125,7 +132,7 @@ export default function PostCreateModal(props: PostCreateModalProps) {
     >
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1 border-b-1 border-default-200 text-default-700">
-          What to review today?
+          Add a review to {forum.name} forum
         </ModalHeader>
         <ModalBody className="py-5">
           {pageState.error && (

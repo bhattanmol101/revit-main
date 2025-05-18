@@ -1,8 +1,8 @@
 "use server";
 
 import {
-  getAllForumPost,
   getForumById,
+  getForumPosts,
   getTopForums,
   getUserCreatedForums,
   saveForum,
@@ -48,8 +48,8 @@ export const saveForumAction = async (
   };
 };
 
-export const fetchForumByIdAction = async (forumId: string) => {
-  const forum = await getForumById(forumId);
+export const fetchForumByIdAction = async (userId: string, forumId: string) => {
+  const forum = await getForumById(userId, forumId);
 
   if (!forum) {
     return {
@@ -82,10 +82,7 @@ export const saveForumPostAction = async (
     } else {
       return {
         success: false,
-        error: {
-          code: 103,
-          message: resp.error,
-        },
+        error: resp.error,
       };
     }
   }
@@ -94,24 +91,28 @@ export const saveForumPostAction = async (
 
   const resp = await saveForumPost(forumPostRequest);
 
+  if (!resp) {
+    return {
+      success: false,
+      error: DEFAULT_ERROR_MESSAGE,
+    };
+  }
+
   return {
-    success: resp.success,
-    error: {
-      code: 102,
-      message: resp.error,
-    },
+    success: true,
+    error: "",
   };
 };
 
 export const getForumPostsAction = async (userId: string, page: number) => {
   let offset = page * POST_LIMIT;
-  const resp = await getAllForumPost(userId, offset, POST_LIMIT);
+  const resp = await getForumPosts(userId, offset, POST_LIMIT);
 
-  if (!resp.success) {
-    throw undefined;
+  if (!resp) {
+    throw { success: false, error: DEFAULT_ERROR_MESSAGE };
   }
 
-  return resp.posts;
+  return { success: true, error: "", posts: resp };
 };
 
 export const fetchTopForumsAction = async (userId: string) => {

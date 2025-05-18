@@ -14,7 +14,6 @@ export const forumTable = pgTable("forum", {
   logo: text("logo").default(""),
   isPublic: boolean("is_public").default(false).notNull(),
   industry: text("industry").notNull(),
-  users: uuid("users").array().default([]),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .notNull()
@@ -23,3 +22,24 @@ export const forumTable = pgTable("forum", {
 
 export type SelectForum = typeof forumTable.$inferSelect;
 export type InsertForum = typeof forumTable.$inferInsert;
+
+export const forumUserTable = pgTable("forum_user", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  forumId: uuid("forum_id")
+    .notNull()
+    .references(() => forumTable.id, {
+      onDelete: "cascade",
+    }),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => profileTable.id, {
+      onDelete: "cascade",
+    }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type SelectForumUser = typeof forumUserTable.$inferSelect;
+export type InsertForumUser = typeof forumUserTable.$inferInsert;
