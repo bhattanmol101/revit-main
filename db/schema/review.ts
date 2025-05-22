@@ -1,5 +1,5 @@
 import {
-  jsonb,
+  json,
   pgTable,
   real,
   text,
@@ -30,27 +30,6 @@ export const reviewTable = pgTable("review", {
 export type SelectReview = typeof reviewTable.$inferSelect;
 export type InsertReview = typeof reviewTable.$inferInsert;
 
-export const businessReviewTable = pgTable("business_review", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id").references(() => profileTable.id, {
-    onDelete: "cascade",
-  }),
-  businessId: uuid("business_id")
-    .notNull()
-    .references(() => businessTable.id, { onDelete: "cascade" }),
-  userName: text("user_name").default(""),
-  rating: real("rating").default(0.0).notNull(),
-  text: text("text").default(""),
-  json: jsonb("json").default({}),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at")
-    .notNull()
-    .$onUpdate(() => new Date()),
-});
-
-export type SelectBusinessReview = typeof businessReviewTable.$inferSelect;
-export type InsertBusinessReview = typeof businessReviewTable.$inferInsert;
-
 export const forumReviewTable = pgTable("forum_post_review", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: uuid("user_id")
@@ -71,3 +50,24 @@ export const forumReviewTable = pgTable("forum_post_review", {
 
 export type SelectForumReview = typeof forumReviewTable.$inferSelect;
 export type InsertForumReview = typeof forumReviewTable.$inferInsert;
+
+export const businessReviewTable = pgTable("business_review", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id").references(() => profileTable.id, {
+    onDelete: "cascade",
+  }),
+  businessId: uuid("business_id")
+    .notNull()
+    .references(() => businessTable.id, { onDelete: "cascade" }),
+  userName: text("user_name").default(""),
+  rating: real("rating").default(0.0).notNull(),
+  text: text("text").default(""),
+  json: json("json").default([]),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+
+export type SelectBusinessReview = typeof businessReviewTable.$inferSelect;
+export type InsertBusinessReview = typeof businessReviewTable.$inferInsert;

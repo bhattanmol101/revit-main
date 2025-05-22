@@ -25,3 +25,14 @@ export const businessTable = pgTable("business", {
 
 export type SelectBusiness = typeof businessTable.$inferSelect;
 export type InsertBusiness = typeof businessTable.$inferInsert;
+
+export const businessIndustryFormTable = pgTable("business_industry_form", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  industry: text("industry").notNull(),
+  formId: text("form_id").notNull(),
+  formURL: text("form_url").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .$onUpdate(() => new Date()),
+});

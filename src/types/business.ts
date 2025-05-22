@@ -21,6 +21,8 @@ export interface Business {
   contact: string;
   website?: string | null;
   industry: string;
+  formId: string;
+  formURL: string;
   createdAt: Date;
 }
 

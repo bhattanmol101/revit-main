@@ -9,22 +9,29 @@ import {
 
 import { useSession } from "@/src/components/Provider";
 import { DeleteIcon, MenuIcon } from "@/src/components/Icons";
-import { ForumT } from "@/src/types/forum";
+import { BusinessReview } from "@/src/types/review";
+import { removeBusinessReviewAction } from "@/src/app/(site)/(home)/business/action";
+import { useBusinessStore } from "@/src/app/store/Business/Feed";
 
-function ForumMenu({ forum }: { forum: ForumT }) {
+function BusinessReviewMenu({ review }: { review: BusinessReview }) {
   const { user } = useSession();
 
   if (!user) {
     return;
   }
 
+  const { feed, setFeed } = useBusinessStore((state) => state);
+
   const onMenuAction = (key: Key) => {
     if (key == "delete") {
-      //Delete
+      removeBusinessReviewAction(review.id);
+      const newFeed = feed.filter((item) => item.id !== review.id);
+
+      setFeed(newFeed);
     }
   };
 
-  if (user.id !== forum.adminId) {
+  if (user.id !== review.userId) {
     return;
   }
 
@@ -57,4 +64,4 @@ function ForumMenu({ forum }: { forum: ForumT }) {
   );
 }
 
-export default ForumMenu;
+export default BusinessReviewMenu;

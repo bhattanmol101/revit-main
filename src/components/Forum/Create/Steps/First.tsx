@@ -1,9 +1,9 @@
 "use client";
 
-import { FormProps } from "@/src/types/form";
+import { ForumFormProps } from "@/src/types/form";
 import { Input, Textarea } from "@heroui/react";
 
-export default function ForumCreateFirst(formProps: FormProps) {
+export default function ForumCreateFirst(formProps: ForumFormProps) {
   const { form, setForm } = formProps;
 
   const setName = (val: string) => setForm({ ...form, name: val });

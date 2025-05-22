@@ -13,7 +13,7 @@ export type ForumT = {
   adminId: string;
   logo: string | null;
   name: string;
-  joined: number;
+  joined?: number;
   industry: string;
   description: string;
   createdAt: Date;

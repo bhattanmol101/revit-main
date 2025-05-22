@@ -3,9 +3,9 @@
 import { Avatar, Select, SelectItem, SharedSelection } from "@heroui/react";
 import FileInput from "../../../Common/File/Input";
 import { INDUSTRIES } from "@/src/utils/constants";
-import { FormProps } from "@/src/types/form";
+import { ForumFormProps } from "@/src/types/form";
 
-export default function ForumCreateSecond(formProps: FormProps) {
+export default function ForumCreateSecond(formProps: ForumFormProps) {
   const { form, setForm } = formProps;
 
   const onLogoChange = (e: any) => {

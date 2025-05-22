@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { AddIcon, StarIcon } from "../../Icons";
 import ForumCreateModal from "../../Forum/Create";
 import PostCreateModal from "../../Post/Create";
+import BusinessCreateModal from "../../Business/Create";
 
 const LeftSideBar = () => {
   const { user } = useSession();
@@ -28,9 +29,11 @@ const LeftSideBar = () => {
     onOpenChange: onForumOpenChange,
   } = useDisclosure();
 
-  const onAddBusinessPress = () => {
-    router.push("/business/create");
-  };
+  const {
+    isOpen: isBusinessOpen,
+    onOpen: onBusinessOpen,
+    onOpenChange: onBusinessOpenChange,
+  } = useDisclosure();
 
   return (
     <div className="fixed w-3/12 px-10 pt-5">
@@ -63,7 +66,7 @@ const LeftSideBar = () => {
             startContent={<AddIcon />}
             variant="faded"
             radius="full"
-            onPress={onAddBusinessPress}
+            onPress={onBusinessOpen}
           >
             <p className="lg:text-sm text-tiny">Grow business on revit</p>
           </Button>
@@ -78,6 +81,12 @@ const LeftSideBar = () => {
         <ForumCreateModal
           isOpen={isForumOpen}
           onOpenChange={onForumOpenChange}
+        />
+      )}
+      {isBusinessOpen && (
+        <BusinessCreateModal
+          isOpen={isBusinessOpen}
+          onOpenChange={onBusinessOpenChange}
         />
       )}
     </div>

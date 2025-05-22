@@ -63,14 +63,11 @@ export async function addReviewToBusiness(
   };
 
   try {
-    await insertReviewForBusiness(insertReview);
+    const id = await insertReviewForBusiness(insertReview);
 
-    return { success: true };
+    return id;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-    };
+    return null;
   }
 }
 

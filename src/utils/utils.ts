@@ -4,6 +4,8 @@ import { POST_BUCKET, POST_BUCKET_URL, QR_CODE_GEN_URL } from "./constants";
 
 import { Post } from "../types/post";
 import { PageState } from "../types";
+import { JsonFieldType } from "../types/form";
+import { TallyReviewType } from "../types/review";
 
 /**
  * Redirects to a specified path with an encoded message as a query parameter.
@@ -90,3 +92,56 @@ export function showFooter(path: string) {
     path === "/support"
   );
 }
+
+export const onTallySubmitHandler = async (
+  data: any,
+  reviewHandler: (review: TallyReviewType) => void
+) => {
+  let rating = 0;
+  let text = "";
+  let name = "";
+  let json: JsonFieldType[] = [];
+
+  data.fields.map((field: any) => {
+    switch (field.title) {
+      case "rating":
+        rating = field.answer.value;
+        break;
+      case "description":
+        text = field.answer.value;
+        break;
+      case "name":
+        name = field.answer.value;
+        break;
+      case "businessId":
+      case "userId":
+        break;
+      default:
+        json.push({
+          title: field.title,
+          value: field.answer.value,
+          type: field.type,
+        });
+        break;
+    }
+  });
+
+  json.sort((a: JsonFieldType, b: JsonFieldType) =>
+    a.type === b.type
+      ? 1
+      : a.type === "RATING"
+        ? 1
+        : b.type === "RATING"
+          ? 1
+          : 0
+  );
+
+  const review = {
+    rating,
+    text,
+    name,
+    json,
+  };
+
+  reviewHandler(review);
+};

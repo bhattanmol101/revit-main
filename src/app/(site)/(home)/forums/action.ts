@@ -1,10 +1,12 @@
 "use server";
 
 import {
+  addUserToForum,
   getForumById,
   getForumPosts,
   getTopForums,
   getUserCreatedForums,
+  getUserJoinedForums,
   saveForum,
   saveForumPost,
 } from "@/src/api/forum";
@@ -130,6 +132,32 @@ export const fetchTopForumsAction = async (userId: string) => {
 
 export const fetchUserCreatedForumsAction = async (userId: string) => {
   const forums = await getUserCreatedForums(userId);
+
+  if (!forums) {
+    return {
+      success: false,
+      error: DEFAULT_ERROR_MESSAGE,
+    };
+  }
+
+  return { success: true, forums: forums };
+};
+
+export const fetchUserJoinedForumsAction = async (userId: string) => {
+  const forums = await getUserJoinedForums(userId);
+
+  if (!forums) {
+    return {
+      success: false,
+      error: DEFAULT_ERROR_MESSAGE,
+    };
+  }
+
+  return { success: true, forums: forums };
+};
+
+export const addUserToForumAction = async (userId: string, forumId: string) => {
+  const forums = await addUserToForum(userId, forumId);
 
   if (!forums) {
     return {

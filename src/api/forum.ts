@@ -1,4 +1,4 @@
-import { InsertForum } from "@/db/schema/forum";
+import { InsertForum, InsertForumUser } from "@/db/schema/forum";
 import { InsertForumPost } from "@/db/schema/post";
 import { ForumPostRequest, ForumRequest } from "../types/forum";
 import {
@@ -6,8 +6,10 @@ import {
   fetchPostsByForumId,
   fetchTopForums,
   fetchUserCreatedForums,
+  fetchUserJoinedForums,
   insertForum,
   insertForumPost,
+  inserUserToForumById,
 } from "../repo/forum";
 
 export async function saveForum(forumRequest: ForumRequest) {
@@ -84,6 +86,31 @@ export async function getTopForums(userId: string) {
 export async function getUserCreatedForums(userId: string) {
   try {
     const resp = await fetchUserCreatedForums(userId);
+
+    return resp;
+  } catch (e: any) {
+    return null;
+  }
+}
+
+export async function getUserJoinedForums(userId: string) {
+  try {
+    const resp = await fetchUserJoinedForums(userId);
+
+    return resp;
+  } catch (e: any) {
+    return null;
+  }
+}
+
+export async function addUserToForum(userId: string, forumId: string) {
+  try {
+    const insertUserToForum: InsertForumUser = {
+      userId: userId,
+      forumId: forumId,
+    };
+
+    const resp = await inserUserToForumById(insertUserToForum);
 
     return resp;
   } catch (e: any) {

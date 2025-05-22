@@ -1,11 +1,14 @@
+import { InsertBusiness } from "@/db/schema/business";
+import { BusinessRequest, UpdateBusiness } from "../types/business";
 import {
+  deleteBusinessReviewById,
   fetchAllBusiness,
   fetchBusinessById,
+  fetchBusinessReviews,
   insertBusiness,
   updateBusiness,
-} from "@/data-access/business.db";
-import { InsertBusiness } from "@/db/schema/business";
-import { BusinessRequest, UpdateBusiness } from "@/types/business";
+} from "../repo/business";
+import { DEFAULT_ERROR_MESSAGE } from "../utils/constants";
 
 export async function saveBusiness(businessRequest: BusinessRequest) {
   try {
@@ -23,13 +26,9 @@ export async function saveBusiness(businessRequest: BusinessRequest) {
 
     const id = await insertBusiness(insertBusinessT);
 
-    return { success: true, error: "", id: id };
+    return id;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-      id: "",
-    };
+    return null;
   }
 }
 
@@ -37,12 +36,9 @@ export async function getBusinessById(businessId: string) {
   try {
     const resp = await fetchBusinessById(businessId);
 
-    return { success: true, business: resp };
+    return resp;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-    };
+    return null;
   }
 }
 
@@ -72,5 +68,25 @@ export async function getAllBusiness(userId: string) {
       success: false,
       error: e.message,
     };
+  }
+}
+
+export async function getBusinessReviews(businessId: string) {
+  try {
+    const reviews = await fetchBusinessReviews(businessId);
+
+    return reviews;
+  } catch (e: any) {
+    return null;
+  }
+}
+
+export async function removeBusinessReview(reviewId: string) {
+  try {
+    await deleteBusinessReviewById(reviewId);
+
+    return;
+  } catch (e: any) {
+    return DEFAULT_ERROR_MESSAGE;
   }
 }

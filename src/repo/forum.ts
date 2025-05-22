@@ -1,4 +1,4 @@
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import {
@@ -82,6 +82,16 @@ export async function fetchPostsByForumId(forumId: string) {
 }
 
 export async function fetchTopForums(userId: string) {
+  const topForums = db
+    .select({
+      id: forumUserTable.forumId,
+    })
+    .from(forumUserTable)
+    .groupBy(forumUserTable.id)
+    .orderBy(desc(sql`count(${forumUserTable.userId})`))
+    .limit(5)
+    .as("top_forums");
+
   const rows = await db
     .select({
       id: forumTable.id,
@@ -96,6 +106,7 @@ export async function fetchTopForums(userId: string) {
     })
     .from(forumTable)
     .innerJoin(profileTable, eq(forumTable.adminId, profileTable.id))
+    .innerJoin(topForums, eq(forumTable.id, topForums.id))
     .orderBy(desc(forumTable.createdAt));
 
   return rows;
@@ -117,6 +128,28 @@ export async function fetchUserCreatedForums(userId: string) {
     .from(forumTable)
     .innerJoin(profileTable, eq(forumTable.adminId, profileTable.id))
     .where(eq(forumTable.adminId, userId))
+    .orderBy(desc(forumTable.createdAt));
+
+  return rows;
+}
+
+export async function fetchUserJoinedForums(userId: string) {
+  const rows = await db
+    .select({
+      id: forumTable.id,
+      userName: profileTable.name,
+      userProfileImage: profileTable.profileImage,
+      adminId: forumTable.adminId,
+      name: forumTable.name,
+      logo: forumTable.logo,
+      description: forumTable.description,
+      industry: forumTable.industry,
+      createdAt: forumTable.createdAt,
+    })
+    .from(forumTable)
+    .innerJoin(profileTable, eq(forumTable.adminId, profileTable.id))
+    .innerJoin(forumUserTable, eq(forumTable.id, forumUserTable.forumId))
+    .where(eq(forumUserTable.userId, userId))
     .orderBy(desc(forumTable.createdAt));
 
   return rows;

@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 
 import { ForumPost, ForumT } from "@/src/types/forum";
 import {
+  addUserToForumAction,
   fetchForumByIdAction,
   getForumPostsAction,
 } from "@/src/app/(site)/(home)/forums/action";
@@ -49,8 +50,6 @@ export default function ForumById() {
   const fetchForum = async () => {
     const resp = await fetchForumByIdAction(user.id, String(id));
 
-    console.log(resp);
-
     setLoading(false);
     if (resp.forum) {
       setForum(resp.forum);
@@ -92,6 +91,14 @@ export default function ForumById() {
     );
   }
 
+  const onJoinForumPress = async () => {
+    const resp = await addUserToForumAction(user.id, String(id));
+
+    if (resp.success) {
+      setForum({ ...forum, joined: 1 });
+    }
+  };
+
   const renderPosts = (post: ForumPost, index: number) => {
     return (
       <InfiniteScroll
@@ -114,8 +121,10 @@ export default function ForumById() {
               src={String(forum.logo)}
             />
             <div className="pl-5">
-              <p className="sm:text-xl font-bold">{forum.name}</p>
-              <p className="text-default-600 sm:text-sm text-sm">
+              <p className="sm:text-xl font-bold text-default-600">
+                {forum.name}
+              </p>
+              <p className="text-default-500 sm:text-sm text-sm">
                 Since: {getJoingDateString(new Date(forum.createdAt))}
               </p>
             </div>
@@ -128,6 +137,7 @@ export default function ForumById() {
                 size="sm"
                 variant="bordered"
                 spinnerPlacement="end"
+                onPress={onJoinForumPress}
               >
                 Join
               </Button>
@@ -156,7 +166,18 @@ export default function ForumById() {
         </p>
       </div>
       {feedLoading && <PostSkeleton count={1} />}
-      {feed.length && feed.map(renderPosts)}
+      {feed.length ? (
+        feed.map(renderPosts)
+      ) : (
+        <div className="flex flex-col justify-center items-center py-3">
+          <p>
+            No reviews yet,
+            {forum.joined
+              ? " Be the first one to add a review."
+              : " Join and add your review."}
+          </p>
+        </div>
+      )}
 
       {isOpen && (
         <ForumPostCreateModal

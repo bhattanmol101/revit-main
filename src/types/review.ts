@@ -1,3 +1,5 @@
+import { JsonFieldType } from "./form";
+
 export interface Review {
   id: string;
   userId: string;
@@ -17,12 +19,13 @@ export interface ReviewRequest {
 export interface BusinessReview {
   id: string;
   businessId: string;
-  userId?: string;
-  userName?: string;
-  userProfileImage?: string;
-  text?: string;
+  userId?: string | null;
+  userName?: string | null;
+  userProfileImage?: string | null;
+  name?: string | null;
+  text?: string | null;
   rating: number;
-  json: any;
+  json: JsonFieldType[] | any;
   createdAt: Date;
 }
 
@@ -32,5 +35,11 @@ export interface BusinessReviewRequest {
   userName?: string;
   rating: number;
   text?: string;
-  json?: any;
+  json?: JsonFieldType[];
 }
+
+export type TallyReviewType = {
+  rating: number;
+  text: string;
+  json: JsonFieldType[];
+};

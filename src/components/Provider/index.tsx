@@ -1,8 +1,9 @@
 "use client";
 
+import { fetchUserById } from "@/src/repo/user";
+import { User } from "@/src/types/user";
 import { createClient } from "@/supabase/client";
 import { Spinner } from "@heroui/react";
-import { User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type MaybeUser = User | null;
@@ -31,7 +32,14 @@ export default function ContextProvider({
         error,
       } = await supabase.auth.getUser();
 
-      if (!error) setUser(user);
+      if (!error && user) {
+        setUser({
+          id: user.id,
+          email: user.user_metadata.email,
+          name: user.user_metadata.name,
+          createdAt: new Date(user.created_at),
+        });
+      }
       setLoading(false);
     };
 

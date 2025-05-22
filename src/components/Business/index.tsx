@@ -11,7 +11,7 @@ import { Tab, Tabs } from "@heroui/react";
 import { useSession } from "../Provider";
 import ForumSkeleton from "../Common/Skeletons/Forum";
 
-export default function Forum() {
+export default function Business() {
   const { user } = useSession();
 
   if (!user) {

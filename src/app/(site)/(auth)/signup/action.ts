@@ -25,6 +25,9 @@ export const signUpAction = async (signupUser: SignupUser) => {
     password,
     options: {
       emailRedirectTo: process.env.AUTH_EMAIL_REDIRECT,
+      data: {
+        name,
+      },
     },
   });
   if (error) {

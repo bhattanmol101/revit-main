@@ -1,30 +1,46 @@
 import React, { Key } from "react";
 import {
-  Button,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@heroui/react";
+} from "@heroui/dropdown";
+import { Button } from "@heroui/button";
 
+import { useFeedStore } from "@/src/app/store/Feed";
 import { useSession } from "@/src/components/Provider";
+import { deletePostAction } from "@/src/app/(site)/(home)/home/action";
 import { DeleteIcon, MenuIcon } from "@/src/components/Icons";
-import { ForumT } from "@/src/types/forum";
+import { ForumPost } from "@/src/types/forum";
 
-function ForumMenu({ forum }: { forum: ForumT }) {
+function ForumPostCardMenu({
+  post,
+  onModalChange,
+}: {
+  post: ForumPost;
+  onModalChange?: () => void;
+}) {
   const { user } = useSession();
 
   if (!user) {
     return;
   }
 
+  const { feed, setFeed } = useFeedStore((state) => state);
+
   const onMenuAction = (key: Key) => {
     if (key == "delete") {
-      //Delete
+      deletePostAction(post.id);
+
+      const newFeed = feed.filter((item) => item.id !== post.id);
+
+      setFeed(newFeed);
+
+      onModalChange && onModalChange();
     }
   };
 
-  if (user.id !== forum.adminId) {
+  if (user.id !== post.userId) {
     return;
   }
 
@@ -57,4 +73,4 @@ function ForumMenu({ forum }: { forum: ForumT }) {
   );
 }
 
-export default ForumMenu;
+export default ForumPostCardMenu;

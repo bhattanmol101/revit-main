@@ -36,6 +36,20 @@
       "when": 1747503176136,
       "tag": "0004_premium_ares",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1747906915711,
+      "tag": "0005_aberrant_xavin",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1747913778208,
+      "tag": "0006_bitter_black_cat",
+      "breakpoints": true
     }
   ]
 }

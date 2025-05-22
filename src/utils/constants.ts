@@ -1,3 +1,5 @@
+import { a } from "framer-motion/client";
+
 export const PROFILE_BUCKET = "profile-bucket";
 export const POST_BUCKET = "post-bucket";
 
@@ -13,13 +15,7 @@ export const INDUSTRIES = [
   { key: "it", label: "Information Technoloy" },
   { key: "travel", label: "Tour & Travel" },
   { key: "influencer", label: "Influencer" },
-  { key: "jewelry", label: "Jewelry" },
-  { key: "logistic", label: "Logistics & Supply Chain" },
-  { key: "pharma", label: "Pharmaceutical" },
-  { key: "social", label: "Social Media" },
   { key: "news", label: "News" },
-  { key: "realestate", label: "Real Estate" },
-  { key: "art", label: "Arts & Carft" },
   { key: "music", label: "Music" },
   { key: "sports", label: "Sports & Fitness" },
 ];
@@ -49,3 +45,23 @@ export const EMPTY_REVIEW_ERROR_MESSAGE =
 export const POST_MAX_FILE_LIMIT = 5;
 
 export const POST_MAX_FILE_SIZE = 2 * 1000 * 1024;
+
+export const INDUSTRIES_MAPPER = new Map<String, String>([
+  ["fnb", "Food & Beverage"],
+  ["hospitality", "Hospitality"],
+  ["it", "Information Technoloy"],
+  ["travel", "Tour & Travel"],
+  ["influencer", "Influencer"],
+  ["news", "News"],
+  ["music", "Music"],
+  ["sports", "Sports & Fitness"],
+]);
+
+export const LABEL_MAPPER = new Map<String, String>([
+  ["food", "Food"],
+  ["service", "Service"],
+  ["ambiance", "Ambiance"],
+  ["vibe", "Vibe"],
+  ["servicePerson", "Service Person"],
+  ["pricePP", "Price Per Person"],
+]);
