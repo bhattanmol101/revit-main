@@ -1,6 +1,6 @@
 "use client";
 
-import { ForumT } from "@/src/types/forum";
+import { Forum } from "@/src/types/forum";
 import { Key, useEffect, useState } from "react";
 import ForumCard from "./Card";
 import {
@@ -11,15 +11,15 @@ import { Tab, Tabs } from "@heroui/react";
 import { useSession } from "../Provider";
 import ForumSkeleton from "../Common/Skeletons/Forum";
 
-export default function Forum() {
+export default function Forums() {
   const { user } = useSession();
 
   if (!user) {
     return;
   }
 
-  const [adminForums, setAdminForums] = useState<ForumT[]>([]);
-  const [joinedForums, setJoinedForums] = useState<ForumT[]>([]);
+  const [adminForums, setAdminForums] = useState<Forum[]>([]);
+  const [joinedForums, setJoinedForums] = useState<Forum[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -29,12 +29,12 @@ export default function Forum() {
     setSelected(key.toString());
   };
 
-  const renderForum = (forums: ForumT[]) => {
+  const renderForum = (forums: Forum[]) => {
     if (loading) {
       return <ForumSkeleton count={3} />;
     }
     return forums.length ? (
-      forums.flatMap((forum: ForumT) => (
+      forums.flatMap((forum: Forum) => (
         <ForumCard key={forum.id} forum={forum} />
       ))
     ) : (

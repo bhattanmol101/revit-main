@@ -8,7 +8,7 @@ const Feature = () => {
   return (
     <>
       {/* <!-- ===== Features Start ===== --> */}
-      <section id="features" className="py-8 lg:py-25 xl:py-20">
+      <section id="features" className="py-0 lg:py-25 xl:py-20">
         <div className="max-w-c-1315 mx-auto px-4 md:px-8 xl:px-0">
           {/* <!-- Section Title Start --> */}
           <SectionHeader

@@ -2,15 +2,20 @@ import { InsertForum, InsertForumUser } from "@/db/schema/forum";
 import { InsertForumPost } from "@/db/schema/post";
 import { ForumPostRequest, ForumRequest } from "../types/forum";
 import {
+  deleteForumPostById,
   fetchForumById,
+  fetchForumPostReviewsById,
   fetchPostsByForumId,
   fetchTopForums,
   fetchUserCreatedForums,
   fetchUserJoinedForums,
   insertForum,
   insertForumPost,
+  insertReviewForForumPost,
   inserUserToForumById,
 } from "../repo/forum";
+import { ReviewRequest } from "../types/review";
+import { InsertForumReview } from "@/db/schema/review";
 
 export async function saveForum(forumRequest: ForumRequest) {
   try {
@@ -65,7 +70,7 @@ export async function getForumPosts(
   limit: number
 ) {
   try {
-    const resp = await fetchPostsByForumId(forumId);
+    const resp = await fetchPostsByForumId(forumId, offset, limit);
 
     return resp;
   } catch (e: any) {
@@ -113,6 +118,46 @@ export async function addUserToForum(userId: string, forumId: string) {
     const resp = await inserUserToForumById(insertUserToForum);
 
     return resp;
+  } catch (e: any) {
+    return null;
+  }
+}
+
+export async function deleteForumPost(postId: string) {
+  try {
+    await deleteForumPostById(postId);
+
+    return;
+  } catch (e: any) {
+    return e.message;
+  }
+}
+
+export async function getForumPostReviewsById(postId: string, userId: string) {
+  try {
+    const resp = await fetchForumPostReviewsById(postId);
+
+    return resp;
+  } catch (e: any) {
+    return null;
+  }
+}
+
+export async function addReviewToForumPost(
+  postId: string,
+  review: ReviewRequest
+) {
+  const insertReview: InsertForumReview = {
+    postId: postId,
+    userId: review.userId,
+    rating: review.rating,
+    text: review.text,
+  };
+
+  try {
+    const id = await insertReviewForForumPost(insertReview);
+
+    return id;
   } catch (e: any) {
     return null;
   }

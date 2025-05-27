@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Button, useDisclosure, Divider, Spinner } from "@heroui/react";
 import { useParams } from "next/navigation";
 
-import { ForumPost, ForumT } from "@/src/types/forum";
+import { ForumPost, Forum } from "@/src/types/forum";
 import {
   addUserToForumAction,
   fetchForumByIdAction,
   getForumPostsAction,
 } from "@/src/app/(site)/(home)/forums/action";
 import { getJoingDateString } from "@/src/utils/date-utils";
-import { EditIcon, StarIcon } from "../../Icons";
+import { StarIcon } from "../../Icons";
 import { useForumStore } from "@/src/app/store/Forum/Feed";
 import InfiniteScroll from "../../Common/InfiniteScroll";
 import PostCard from "../../Post/Card";
@@ -21,6 +21,7 @@ import ForumSkeleton from "../../Common/Skeletons/Forum";
 import ForumPostCreateModal from "../Post/Create";
 import ForumMenu from "./Menu";
 import { useSession } from "../../Provider";
+import ForumPostCard from "../Post";
 
 export default function ForumById() {
   const { user } = useSession();
@@ -37,15 +38,11 @@ export default function ForumById() {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [loading, setLoading] = useState(true);
-
-  const [feedLoading, setFeedLoading] = useState(true);
-
-  const [page, setPage] = useState(0);
-
-  const [forum, setForum] = useState<ForumT>();
-
+  const [forum, setForum] = useState<Forum>();
   const { feed, setFeed } = useForumStore((state) => state);
+  const [loading, setLoading] = useState(true);
+  const [feedLoading, setFeedLoading] = useState(true);
+  const [page, setPage] = useState(0);
 
   const fetchForum = async () => {
     const resp = await fetchForumByIdAction(user.id, String(id));
@@ -57,22 +54,29 @@ export default function ForumById() {
   };
 
   const fetchForumPosts = async () => {
-    const resp = await getForumPostsAction(String(id), 0);
+    setFeedLoading(true);
+
+    const resp = await getForumPostsAction(String(id), page);
 
     setFeedLoading(false);
-
-    if (resp.posts) {
-      setFeed(resp.posts);
+    if (resp.posts.length) {
+      if (page === 0) {
+        setFeed(resp.posts);
+      } else {
+        setFeed([...feed, ...resp.posts]);
+      }
     }
   };
 
-  const fetchForumAndPosts = async () => {
-    await Promise.all([fetchForum(), fetchForumPosts()]);
-  };
+  useEffect(() => {
+    console.log("Fetching forum by id:", id);
+    fetchForum();
+  }, []);
 
   useEffect(() => {
-    fetchForumAndPosts();
-  }, []);
+    console.log("Fetching forum posts for page:", page);
+    fetchForumPosts();
+  }, [page]);
 
   if (loading) {
     return (
@@ -103,7 +107,7 @@ export default function ForumById() {
     return (
       <InfiniteScroll
         key={post.id}
-        render={<PostCard post={post as Post} />}
+        render={<ForumPostCard post={post} />}
         isLast={index === feed.length - 1}
         setPage={() => setPage(page + 1)}
       />
@@ -165,18 +169,22 @@ export default function ForumById() {
           {forum.description}
         </p>
       </div>
-      {feedLoading && <PostSkeleton count={1} />}
-      {feed.length ? (
-        feed.map(renderPosts)
-      ) : (
-        <div className="flex flex-col justify-center items-center py-3">
-          <p>
-            No reviews yet,
-            {forum.joined
-              ? " Be the first one to add a review."
-              : " Join and add your review."}
-          </p>
-        </div>
+      {feedLoading && page === 0 && <PostSkeleton count={1} />}
+      {feed.length
+        ? feed.flatMap(renderPosts)
+        : !feedLoading && (
+            <div className="flex flex-col justify-center items-center py-3">
+              <p>
+                No reviews yet,
+                {forum.joined
+                  ? " Be the first one to add a review."
+                  : " Join and add your review."}
+              </p>
+            </div>
+          )}
+
+      {feedLoading && page !== 0 && (
+        <Spinner className="w-full self-center my-2" />
       )}
 
       {isOpen && (

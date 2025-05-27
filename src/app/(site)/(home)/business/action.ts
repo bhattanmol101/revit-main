@@ -1,9 +1,9 @@
 "use server";
 
 import {
-  getAllBusiness,
   getBusinessById,
   getBusinessReviews,
+  getUserBusinesses,
   removeBusinessReview,
   saveBusiness,
   updateBusinessById,
@@ -12,7 +12,7 @@ import { addReviewToBusiness } from "@/src/api/review";
 import { BusinessRequest, UpdateBusiness } from "@/src/types/business";
 import { BusinessReviewRequest } from "@/src/types/review";
 import { DEFAULT_ERROR_MESSAGE } from "@/src/utils/constants";
-import { uploadFile } from "@/src/utils/utils";
+import { getQRCodeURL, uploadFile } from "@/src/utils/utils";
 import { createClient } from "@/supabase/server";
 
 export const saveBusinessAction = async (
@@ -101,25 +101,10 @@ export const updateBusinessAction = async (
   };
 };
 
-export const fetchAllBusinessAction = async (userId: string) => {
-  const resp = await getAllBusiness(userId);
+export const fetchUserBusinessesAction = async (userId: string) => {
+  const businesses = await getUserBusinesses(userId);
 
-  console.log(resp);
-
-  if (!resp.success) {
-    return undefined;
-  }
-
-  return resp.forums;
-};
-
-export const saveReviewForBusinessAction = async (
-  businessId: string,
-  businessReviewRequest: BusinessReviewRequest
-) => {
-  const id = await addReviewToBusiness(businessId, businessReviewRequest);
-
-  if (!id) {
+  if (!businesses) {
     return {
       success: false,
       error: DEFAULT_ERROR_MESSAGE,
@@ -129,6 +114,7 @@ export const saveReviewForBusinessAction = async (
   return {
     success: true,
     error: "",
+    businesses: businesses,
   };
 };
 
@@ -163,4 +149,15 @@ export const removeBusinessReviewAction = async (reviewId: string) => {
     success: true,
     error: "",
   };
+};
+
+export const fetchQRCodeAction = async (formUrl: string) => {
+  const resp = await fetch(getQRCodeURL(formUrl), {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+
+  return resp.blob();
 };

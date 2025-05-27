@@ -1,6 +1,10 @@
 import { InsertProfile } from "@/db/schema/user";
 import { UpdateUser, User } from "../types/user";
-import { insertUserProfile, updateUserProfile } from "../repo/user";
+import {
+  fetchUserById,
+  insertUserProfile,
+  updateUserProfile,
+} from "../repo/user";
 
 export async function saveUserProfile(user: User) {
   try {

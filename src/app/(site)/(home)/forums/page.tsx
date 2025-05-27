@@ -1,4 +1,4 @@
-import Forum from "@/src/components/Forum";
+import Forums from "@/src/components/Forum";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ForumPage() {
   return (
     <>
-      <Forum />
+      <Forums />
     </>
   );
 }

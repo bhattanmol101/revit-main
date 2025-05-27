@@ -2,9 +2,9 @@ import { InsertBusiness } from "@/db/schema/business";
 import { BusinessRequest, UpdateBusiness } from "../types/business";
 import {
   deleteBusinessReviewById,
-  fetchAllBusiness,
   fetchBusinessById,
   fetchBusinessReviews,
+  fetchUserBusinesses,
   insertBusiness,
   updateBusiness,
 } from "../repo/business";
@@ -58,16 +58,13 @@ export async function updateBusinessById(
   }
 }
 
-export async function getAllBusiness(userId: string) {
+export async function getUserBusinesses(userId: string) {
   try {
-    const resp = await fetchAllBusiness(userId);
+    const busniesses = await fetchUserBusinesses(userId);
 
-    return { success: true, forums: resp };
+    return busniesses;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-    };
+    return null;
   }
 }
 

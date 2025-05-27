@@ -9,5 +9,12 @@ export const fetchUserAction = async () => {
 
   if (error) return null;
 
-  return user;
+  if (!user) return null;
+
+  return {
+    id: user.id,
+    email: user.user_metadata.email,
+    name: user.user_metadata.name,
+    createdAt: new Date(user.created_at),
+  };
 };

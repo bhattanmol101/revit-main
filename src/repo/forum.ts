@@ -9,7 +9,7 @@ import {
 } from "@/db/schema/forum";
 import { profileTable } from "@/db/schema/user";
 import { forumPostTable, InsertForumPost } from "@/db/schema/post";
-import { forumReviewTable } from "@/db/schema/review";
+import { forumReviewTable, InsertForumReview } from "@/db/schema/review";
 
 export async function insertForum(forum: InsertForum) {
   const res = await db
@@ -56,7 +56,11 @@ export async function insertForumPost(forumPost: InsertForumPost) {
   return res[0].postId;
 }
 
-export async function fetchPostsByForumId(forumId: string) {
+export async function fetchPostsByForumId(
+  forumId: string,
+  offset: number,
+  limit: number
+) {
   const rows = await db
     .select({
       id: forumPostTable.id,
@@ -76,7 +80,9 @@ export async function fetchPostsByForumId(forumId: string) {
     .innerJoin(profileTable, eq(forumPostTable.userId, profileTable.id))
     .where(eq(forumPostTable.forumId, forumId))
     .groupBy(forumPostTable.id, profileTable.id)
-    .orderBy(desc(forumPostTable.createdAt));
+    .orderBy(desc(forumPostTable.createdAt))
+    .offset(offset)
+    .limit(limit);
 
   return rows;
 }
@@ -87,7 +93,7 @@ export async function fetchTopForums(userId: string) {
       id: forumUserTable.forumId,
     })
     .from(forumUserTable)
-    .groupBy(forumUserTable.id)
+    .groupBy(forumUserTable.forumId)
     .orderBy(desc(sql`count(${forumUserTable.userId})`))
     .limit(5)
     .as("top_forums");
@@ -162,4 +168,44 @@ export async function inserUserToForumById(forumUser: InsertForumUser) {
     .returning({ forumUserId: forumTable.id });
 
   return rows[0].forumUserId;
+}
+
+export async function deleteForumPostById(postId: string) {
+  await db.transaction(async (tx) => {
+    await tx.delete(forumPostTable).where(eq(forumPostTable.id, postId));
+
+    await tx
+      .delete(forumReviewTable)
+      .where(eq(forumReviewTable.postId, postId));
+  });
+
+  return;
+}
+
+export async function fetchForumPostReviewsById(postId: string) {
+  const rows = await db
+    .select({
+      id: forumReviewTable.id,
+      userId: profileTable.id,
+      userName: profileTable.name,
+      userProfileImage: profileTable.profileImage,
+      text: forumReviewTable.text,
+      rating: forumReviewTable.rating,
+      createdAt: forumReviewTable.createdAt,
+    })
+    .from(forumReviewTable)
+    .innerJoin(profileTable, eq(forumReviewTable.userId, profileTable.id))
+    .where(eq(forumReviewTable.postId, postId))
+    .orderBy(desc(forumReviewTable.createdAt));
+
+  return rows;
+}
+
+export async function insertReviewForForumPost(review: InsertForumReview) {
+  const res = await db
+    .insert(forumReviewTable)
+    .values(review)
+    .returning({ reviewId: forumReviewTable.id });
+
+  return res[0].reviewId;
 }

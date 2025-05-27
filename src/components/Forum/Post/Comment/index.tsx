@@ -1,6 +1,10 @@
 "use client";
 
 import {
+  addReviewToForumPostAction,
+  getForumPostReviewsByIdAction,
+} from "@/src/app/(site)/(home)/forums/action";
+import {
   addReviewToPostAction,
   getPostReviewsByIdAction,
 } from "@/src/app/(site)/(home)/home/action";
@@ -51,7 +55,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
   };
 
   const fetchPostReviews = async () => {
-    const resp = await getPostReviewsByIdAction(post.id);
+    const resp = await getForumPostReviewsByIdAction(post.id);
 
     setPageState({
       ...pageState,
@@ -79,7 +83,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
       rating: rating,
     };
 
-    const res = await addReviewToPostAction(post.id, review);
+    const res = await addReviewToForumPostAction(post.id, review);
 
     setReviewLoading(false);
 

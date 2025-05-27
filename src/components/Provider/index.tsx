@@ -1,6 +1,5 @@
 "use client";
 
-import { fetchUserById } from "@/src/repo/user";
 import { User } from "@/src/types/user";
 import { createClient } from "@/supabase/client";
 import { Spinner } from "@heroui/react";
@@ -10,7 +9,7 @@ type MaybeUser = User | null;
 
 type UserContext = {
   user: MaybeUser;
-  setUser: (user: User) => void;
+  setUser: (user: MaybeUser) => void;
 };
 
 // @ts-ignore

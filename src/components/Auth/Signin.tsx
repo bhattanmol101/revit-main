@@ -6,7 +6,6 @@ import { Slider } from "@heroui/slider";
 import { Divider } from "@heroui/divider";
 import { Form } from "@heroui/form";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 import logo from "../../../public/images/logo/revit-logo.svg";
 import { GoogleIcon } from "@/src/components/Icons";

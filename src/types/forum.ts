@@ -6,7 +6,7 @@ export type ForumRequest = {
   description: string;
 };
 
-export type ForumT = {
+export type Forum = {
   id: string;
   userName: string;
   userProfileImage: string | null;

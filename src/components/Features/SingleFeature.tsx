@@ -29,10 +29,10 @@ const SingleFeature = ({ feature }: { feature: Feature }) => {
         <div className="bg-primary relative flex h-16 w-16 items-center justify-center rounded-[4px]">
           <Image src={icon} width={36} height={36} alt="title" />
         </div>
-        <h3 className="xl:text-itemtitle mt-7.5 mb-5 text-xl font-semibold text-black dark:text-white">
+        <h3 className="xl:text-itemtitle mt-7.5 mb-5 text-lg md:text-xl font-semibold text-black dark:text-white">
           {title}
         </h3>
-        <p>{description}</p>
+        <p className="text-sm md:text-base">{description}</p>
       </motion.div>
     </>
   );

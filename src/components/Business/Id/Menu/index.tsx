@@ -9,9 +9,9 @@ import {
 
 import { useSession } from "@/src/components/Provider";
 import { DeleteIcon, MenuIcon } from "@/src/components/Icons";
-import { ForumT } from "@/src/types/forum";
+import { Business } from "@/src/types/business";
 
-function ForumMenu({ forum }: { forum: ForumT }) {
+function BusinessMenu({ business }: { business: Business }) {
   const { user } = useSession();
 
   if (!user) {
@@ -24,7 +24,7 @@ function ForumMenu({ forum }: { forum: ForumT }) {
     }
   };
 
-  if (user.id !== forum.adminId) {
+  if (user.id !== business.adminId) {
     return;
   }
 
@@ -57,4 +57,4 @@ function ForumMenu({ forum }: { forum: ForumT }) {
   );
 }
 
-export default ForumMenu;
+export default BusinessMenu;

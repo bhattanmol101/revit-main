@@ -7,11 +7,11 @@ import {
 } from "@heroui/dropdown";
 import { Button } from "@heroui/button";
 
-import { useFeedStore } from "@/src/app/store/Feed";
 import { useSession } from "@/src/components/Provider";
-import { deletePostAction } from "@/src/app/(site)/(home)/home/action";
 import { DeleteIcon, MenuIcon } from "@/src/components/Icons";
 import { ForumPost } from "@/src/types/forum";
+import { useForumStore } from "@/src/app/store/Forum/Feed";
+import { deleteForumPostAction } from "@/src/app/(site)/(home)/forums/action";
 
 function ForumPostCardMenu({
   post,
@@ -26,17 +26,15 @@ function ForumPostCardMenu({
     return;
   }
 
-  const { feed, setFeed } = useFeedStore((state) => state);
+  const { feed, setFeed } = useForumStore((state) => state);
 
   const onMenuAction = (key: Key) => {
     if (key == "delete") {
-      deletePostAction(post.id);
+      deleteForumPostAction(post.id);
 
       const newFeed = feed.filter((item) => item.id !== post.id);
 
       setFeed(newFeed);
-
-      onModalChange && onModalChange();
     }
   };
 

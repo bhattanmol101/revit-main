@@ -17,11 +17,11 @@ import FileInput from "../../../Common/File/Input";
 import { ImageIcon } from "@/src/components/Icons";
 import { Alert } from "@heroui/react";
 import { POST_MAX_FILE_LIMIT, POST_MAX_FILE_SIZE } from "@/src/utils/constants";
-import { ForumPostRequest, ForumT } from "@/src/types/forum";
+import { ForumPostRequest, Forum } from "@/src/types/forum";
 import { saveForumPostAction } from "@/src/app/(site)/(home)/forums/action";
 
 type ForumPostCreateModalProps = {
-  forum: ForumT;
+  forum: Forum;
   isOpen: boolean;
   onOpenChange: () => void;
 };

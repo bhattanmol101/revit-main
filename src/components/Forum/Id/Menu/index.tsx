@@ -9,18 +9,23 @@ import {
 
 import { useSession } from "@/src/components/Provider";
 import { DeleteIcon, MenuIcon } from "@/src/components/Icons";
-import { ForumT } from "@/src/types/forum";
+import { Forum } from "@/src/types/forum";
+import { useForumStore } from "@/src/app/store/Forum/Feed";
 
-function ForumMenu({ forum }: { forum: ForumT }) {
+function ForumMenu({ forum }: { forum: Forum }) {
   const { user } = useSession();
 
   if (!user) {
     return;
   }
 
+  const { feed, setFeed } = useForumStore((state) => state);
+
   const onMenuAction = (key: Key) => {
     if (key == "delete") {
-      //Delete
+      const newFeed = feed.filter((item) => item.id !== forum.id);
+
+      setFeed(newFeed);
     }
   };
 

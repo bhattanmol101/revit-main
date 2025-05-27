@@ -28,10 +28,10 @@ const About = () => {
               viewport={{ once: true }}
               className="animate_left text-center md:w-1/2 md:text-left"
             >
-              <h4 className="font-medium text-white uppercase">
+              <h4 className="text-lg md:text-xl font-medium text-white uppercase">
                 Revit Your Business
               </h4>
-              <p className="pt-5">
+              <p className="pt-5 text-sm md:text-base">
                 We help you outsource any feedback integration required for your
                 business. We will handle all the work for you to get precise
                 reviews by providing custom feedback forms and integrate it with

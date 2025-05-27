@@ -1,15 +1,15 @@
-import { ForumPost, ForumT } from "@/src/types/forum";
+import { ForumPost, Forum } from "@/src/types/forum";
 import { create } from "zustand";
 
 // State types
 interface States {
-  forums: ForumT[];
+  forums: Forum[];
   feed: ForumPost[];
 }
 
 // Action types
 interface Actions {
-  setForums: (forums: ForumT[]) => void;
+  setForums: (forums: Forum[]) => void;
   setFeed: (posts: ForumPost[]) => void;
 }
 
@@ -19,6 +19,6 @@ export const useForumStore = create<States & Actions>((set) => ({
   forums: [],
   feed: [],
   // Actions
-  setForums: (forums: ForumT[]) => set(() => ({ forums: forums })),
+  setForums: (forums: Forum[]) => set(() => ({ forums: forums })),
   setFeed: (posts: ForumPost[]) => set(() => ({ feed: posts })),
 }));

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 // The client you created from the Server-Side Auth instructions
-import { createClient } from "@/utils/supabase/server";
-import { fetchUserById, insertUserProfile } from "@/data-access/user.db";
+import { createClient } from "@/supabase/server";
+import { fetchUserById, insertUserProfile } from "@/src/repo/user";
 import { User } from "@/src/types/user";
 
 export async function GET(request: Request) {

@@ -1,12 +1,10 @@
-import { title } from "@/components/primitives";
-
 export default function PrivacyPage() {
   return (
-    <div className="text-justify">
+    <div className="text-justify md:px-40 py-20">
       <div className="text-center">
-        <h1 className={`${title({ size: "sm", color: "blue" })}`}>
+        <p className="bg-gradient-to-r from-[#8890db] to-[#234c99] bg-clip-text text-transparent text-3xl font-bold md:text-5xl pt-10">
           Privacy Policy
-        </h1>
+        </p>
       </div>
       <p className="md:pt-24 pt-12">
         Thank you for choosing to be a part of our community at aeradron, doing

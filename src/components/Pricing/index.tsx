@@ -6,7 +6,10 @@ const Pricing = () => {
   return (
     <>
       {/* <!-- ===== Pricing Table Start ===== --> */}
-      <section className="overflow-hidden pt-15 pb-20 lg:pb-25 xl:pb-30">
+      <section
+        id="pricing"
+        className="overflow-hidden pt-15 pb-20 lg:pb-25 xl:pb-30 text-sm md:text-base"
+      >
         <div className="max-w-c-1315 mx-auto px-4 md:px-8 xl:px-0">
           {/* <!-- Section Title Start --> */}
           <div className="animate_top mx-auto text-center">
@@ -36,7 +39,7 @@ const Pricing = () => {
               <div className="bg-primary text-metatitle absolute top-7.5 -right-3.5 -rotate-90 rounded-tl-full rounded-bl-full px-8 py-1.5 font-medium text-white uppercase">
                 free
               </div>
-              <h3 className="xl:text-sectiontitle3 mb-7.5 text-3xl font-bold text-black dark:text-white">
+              <h3 className="xl:text-sectiontitle3 mb-7.5 text-2xl md:text-3xl font-bold text-black dark:text-white">
                 ₹0{" "}
                 <span className="text-regular text-waterloo dark:text-manatee">
                   / month
@@ -49,7 +52,7 @@ const Pricing = () => {
                 For businesses to start collecting and managing their feedback.
               </p>
 
-              <div className="border-stroke dark:border-strokedark mt-9 border-t pt-9 pb-12.5">
+              <div className="border-stroke dark:border-strokedark md:mt-9 mt-6 border-t md:pt-9 pt-6 md:pb-12.5 pb-9">
                 <ul>
                   <li className="dark:text-manatee mb-4 text-black last:mb-0">
                     Standard Review Form
@@ -66,12 +69,13 @@ const Pricing = () => {
                 </ul>
               </div>
 
-              <button
+              <a
                 aria-label="Get the Plan button"
-                className="group/btn text-primary dark:hover:text-primary inline-flex items-center gap-2.5 font-medium transition-all duration-300 dark:text-white"
+                className="group/btn hover:cursor-pointer text-primary dark:hover:text-primary inline-flex items-center gap-2.5 font-medium transition-all duration-300 dark:text-white"
+                href="/signup"
               >
                 <span className="duration-300 group-hover/btn:pr-2">
-                  Get the Plan
+                  Signup for free
                 </span>
                 <svg
                   width="14"
@@ -84,7 +88,7 @@ const Pricing = () => {
                     fill="currentColor"
                   />
                 </svg>
-              </button>
+              </a>
             </div>
 
             {/* <!-- Pricing Item --> */}
@@ -93,7 +97,7 @@ const Pricing = () => {
                 popular
               </div>
 
-              <h3 className="xl:text-sectiontitle3 mb-7.5 text-3xl font-bold text-black dark:text-white">
+              <h3 className="xl:text-sectiontitle3 mb-7.5 text-2xl md:text-3xl font-bold text-black dark:text-white">
                 ₹500{" "}
                 <span className="text-regular text-waterloo dark:text-manatee">
                   / month
@@ -104,7 +108,7 @@ const Pricing = () => {
               </h4>
               <p>For business looking to understand customer feedback.</p>
 
-              <div className="border-stroke dark:border-strokedark mt-9 border-t pt-9 pb-12.5">
+              <div className="border-stroke dark:border-strokedark md:mt-9 mt-6 border-t md:pt-9 pt-6 md:pb-12.5 pb-9">
                 <ul>
                   <li className="dark:text-manatee mb-4 text-black last:mb-0">
                     Custom Review Form
@@ -121,9 +125,10 @@ const Pricing = () => {
                 </ul>
               </div>
 
-              <button
+              <a
                 aria-label="Get the Plan button"
-                className="group/btn text-primary dark:hover:text-primary inline-flex items-center gap-2.5 font-medium transition-all duration-300 dark:text-white"
+                className="group/btn text-primary hover:cursor-pointer dark:hover:text-primary inline-flex items-center gap-2.5 font-medium transition-all duration-300 dark:text-white"
+                href="#contact"
               >
                 <span className="duration-300 group-hover/btn:pr-2">
                   Get the Plan
@@ -139,12 +144,12 @@ const Pricing = () => {
                     fill="currentColor"
                   />
                 </svg>
-              </button>
+              </a>
             </div>
 
             {/* <!-- Pricing Item --> */}
             <div className="animate_top group border-stroke shadow-solid-10 dark:border-strokedark dark:bg-blacksection relative rounded-lg border bg-white p-7.5 md:w-[45%] lg:w-1/3 xl:p-12.5 dark:shadow-none">
-              <h3 className="xl:text-sectiontitle3 mb-7.5 text-3xl font-bold text-black dark:text-white">
+              <h3 className="xl:text-sectiontitle3 mb-7.5 text-2xl md:text-3xl font-bold text-black dark:text-white">
                 ₹5000{" "}
                 <span className="text-regular text-waterloo dark:text-manatee">
                   / month
@@ -158,7 +163,7 @@ const Pricing = () => {
                 level.
               </p>
 
-              <div className="border-stroke dark:border-strokedark mt-9 border-t pt-9 pb-12.5">
+              <div className="border-stroke dark:border-strokedark md:mt-9 mt-6 border-t md:pt-9 pt-6 md:pb-12.5 pb-9">
                 <ul>
                   <li className="dark:text-manatee mb-4 text-black last:mb-0">
                     Custom Review Form
@@ -175,9 +180,10 @@ const Pricing = () => {
                 </ul>
               </div>
 
-              <button
+              <a
                 aria-label="Get the Plan button"
-                className="group/btn text-primary dark:hover:text-primary inline-flex items-center gap-2.5 font-medium transition-all duration-300 dark:text-white"
+                className="group/btn text-primary hover:cursor-pointer dark:hover:text-primary inline-flex items-center gap-2.5 font-medium transition-all duration-300 dark:text-white"
+                href="#contact"
               >
                 <span className="duration-300 group-hover/btn:pr-2">
                   Get the Plan
@@ -193,7 +199,7 @@ const Pricing = () => {
                     fill="currentColor"
                   />
                 </svg>
-              </button>
+              </a>
             </div>
           </div>
         </div>

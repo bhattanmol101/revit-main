@@ -1,15 +1,30 @@
 "use client";
-import { Button, Checkbox, Form, Input, Textarea } from "@heroui/react";
+import { sendEmail } from "@/src/app/(site)/action";
+import { ContactForm } from "@/src/types/form";
+import { validateContact } from "@/src/utils/validators";
+import {
+  addToast,
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Textarea,
+} from "@heroui/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 const Contact = () => {
   /**
    * Source: https://www.joshwcomeau.com/react/the-perils-of-rehydration/
    * Reason: To fix rehydration error
    */
-  const [hasMounted, setHasMounted] = React.useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  const [checked, setChecked] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
   React.useEffect(() => {
     setHasMounted(true);
   }, []);
@@ -17,11 +32,34 @@ const Contact = () => {
     return null;
   }
 
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const contact = Object.fromEntries(formData.entries()) as ContactForm;
+
+    const resp = await sendEmail(contact);
+    setLoading(false);
+    if (resp.success) {
+      addToast({
+        title: "Email Sent",
+        description: "Your message has been sent.",
+        color: "success",
+      });
+    } else {
+      addToast({
+        title: "Email could not be sent",
+        description: "Your message has not been sent, Please try again later.",
+        color: "danger",
+      });
+    }
+  };
+
   return (
     <>
       {/* <!-- ===== Contact Start ===== --> */}
-      <section id="support" className="px-4 md:px-8 2xl:px-0">
-        <div className="max-w-c-1390 relative mx-auto px-7.5 py-10 lg:px-15 lg:py-15 xl:px-20 xl:py-20">
+      <section id="contact" className="px-4 md:px-8 2xl:px-0">
+        <div className="max-w-c-1390 relative mx-auto px-5 pb-12 lg:px-15 lg:py-15 xl:px-20 xl:py-20">
           <div className="absolute top-0 left-0 -z-1 h-2/3 w-full rounded-lg"></div>
           <div className="absolute bottom-[-255px] left-0 -z-1 h-full w-full">
             <Image
@@ -31,7 +69,7 @@ const Contact = () => {
             />
           </div>
 
-          <div className="flex flex-col-reverse flex-wrap gap-8 md:flex-row md:flex-nowrap md:justify-between xl:gap-20">
+          <div className="flex flex-col-reverse flex-wrap gap-4 md:flex-row md:flex-nowrap md:justify-between xl:gap-20">
             <motion.div
               variants={{
                 hidden: {
@@ -50,18 +88,21 @@ const Contact = () => {
               viewport={{ once: true }}
               className="animate_top shadow-solid-8 dark:border-strokedark w-full rounded-lg p-7.5 md:w-3/5 lg:w-3/4 xl:p-15 dark:border"
             >
-              <h2 className="mb-15 text-lg font-semibold text-black xl:text-xl dark:text-white">
+              <h2 className="md:mb-15 mb-6 text-lg font-semibold text-black xl:text-xl dark:text-white">
                 Send a message
               </h2>
 
               <Form
+                id="contact-form"
                 className="flex w-full flex-col gap-2 md:gap-6"
                 validationBehavior="native"
-                onSubmit={() => {}}
+                onSubmit={onSubmit}
               >
-                <div className="flex w-full flex-col gap-3 lg:flex-row lg:justify-between">
+                <div className="flex w-full flex-col md:gap-3 gap-2 lg:flex-row lg:justify-between">
                   <Input
+                    form="contact-form"
                     errorMessage="Please enter a valid name"
+                    isRequired
                     label="Name"
                     variant="faded"
                     name="name"
@@ -69,6 +110,8 @@ const Contact = () => {
                     type="text"
                   />
                   <Input
+                    form="contact-form"
+                    isRequired
                     errorMessage="Please enter a valid email"
                     label="Email"
                     variant="faded"
@@ -78,8 +121,10 @@ const Contact = () => {
                   />
                 </div>
 
-                <div className="flex w-full flex-col gap-3 lg:flex-row lg:justify-between">
+                <div className="flex w-full flex-col md:gap-3 gap-2 lg:flex-row lg:justify-between">
                   <Input
+                    form="contact-form"
+                    isRequired
                     errorMessage="Please enter a valid subject"
                     label="Subject"
                     variant="faded"
@@ -88,16 +133,21 @@ const Contact = () => {
                     type="text"
                   />
                   <Input
+                    form="contact-form"
+                    isRequired
                     errorMessage="Please enter a valid number"
                     label="Phone Number"
                     variant="faded"
                     name="number"
                     placeholder="123456789"
+                    validate={validateContact}
                     type="text"
                   />
                 </div>
 
                 <Textarea
+                  form="contact-form"
+                  isRequired
                   aria-label="Message"
                   className="mb-5 whitespace-pre"
                   maxRows={10}
@@ -108,7 +158,7 @@ const Contact = () => {
 
                 <div className="flex w-full flex-wrap items-center gap-4 xl:justify-between">
                   <div className="mb-4 flex md:mb-0">
-                    <Checkbox>
+                    <Checkbox isRequired form="contact-form">
                       <p className="text-sm">
                         By clicking checkbox, you agree to our terms &
                         conditions.
@@ -117,7 +167,8 @@ const Contact = () => {
                   </div>
 
                   <Button
-                    onPress={() => {}}
+                    form="contact-form"
+                    type="submit"
                     endContent={
                       <svg
                         className="fill-white"
@@ -133,6 +184,8 @@ const Contact = () => {
                         />
                       </svg>
                     }
+                    isLoading={loading}
+                    spinnerPlacement="end"
                   >
                     Send Message
                   </Button>
@@ -158,17 +211,17 @@ const Contact = () => {
               viewport={{ once: true }}
               className="animate_top w-full md:w-2/5 md:p-7.5 lg:w-[26%] xl:pt-15"
             >
-              <p className="mb-12.5 text-xl font-semibold text-black xl:text-2xl dark:text-white">
+              <p className="md:mb-12.5 mb-6 text-xl font-semibold text-black xl:text-2xl dark:text-white">
                 Find us
               </p>
 
-              <div className="5 mb-7">
+              <div className="mb-7">
                 <h3 className="text-metatitle3 mb-4 font-medium text-black dark:text-white">
                   Our Loaction
                 </h3>
                 <p>Kundalahalli, Bangalore, Karnataka - 560037</p>
               </div>
-              <div className="5 mb-7">
+              <div className="mb-7">
                 <h3 className="text-metatitle3 mb-4 font-medium text-black dark:text-white">
                   Email Address
                 </h3>

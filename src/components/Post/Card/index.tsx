@@ -11,8 +11,6 @@ import {
   Button,
   Slider,
   User,
-  Avatar,
-  Textarea,
 } from "@heroui/react";
 import { StarIcon } from "../../Icons";
 import FileSlider from "../../Common/File/Slider";

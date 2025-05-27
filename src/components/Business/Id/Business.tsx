@@ -6,11 +6,11 @@ import { ContactIcon, LocationIcon, StarIcon, WebsiteIcon } from "../../Icons";
 import { useSession } from "../../Provider";
 import { Business } from "@/src/types/business";
 import Script from "next/script";
-import { saveReviewForBusinessAction } from "@/src/app/(site)/(home)/business/action";
-import { BusinessReviewRequest } from "@/src/types/review";
-import { onTallySubmitHandler } from "@/src/utils/utils";
+import { fetchQRCodeAction } from "@/src/app/(site)/(home)/business/action";
 import { INDUSTRIES_MAPPER } from "@/src/utils/constants";
-import BusinessReviewCreateModal from "../Review/Create";
+import BusinessMenu from "./Menu";
+import { useState } from "react";
+import QRModal from "./QR";
 
 export default function BusinessDetails({ business }: { business: Business }) {
   const { user } = useSession();
@@ -19,20 +19,14 @@ export default function BusinessDetails({ business }: { business: Business }) {
     return;
   }
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isQROpen,
+    onOpen: onQROpen,
+    onOpenChange: onQROpenChange,
+  } = useDisclosure();
 
-  const handleFnBReview = (review: any) => {
-    const businessReview: BusinessReviewRequest = {
-      businessId: business.id,
-      rating: review.rating,
-      text: review.text,
-      userId: user.id,
-      userName: review.name ? review.name : user.name,
-      json: review.json,
-    };
-
-    saveReviewForBusinessAction(business.id, businessReview);
-  };
+  const [qrLoading, setQRLoading] = useState(false);
+  const [qrImage, setQRImage] = useState<Blob>();
 
   const options: any = {
     layout: "modal",
@@ -48,13 +42,25 @@ export default function BusinessDetails({ business }: { business: Business }) {
       businessId: business.id,
       userId: user.id,
     },
-    onSubmit: (payload: any) => {
-      onTallySubmitHandler(payload, handleFnBReview);
-    },
   };
 
   const handleTallyClick = () => {
     Tally.openPopup(business.formId, options);
+  };
+
+  const onGenerateQRPress = async () => {
+    setQRLoading(true);
+    if (!business.formURL) {
+      setQRLoading(false);
+      return;
+    }
+
+    const formURL = `${business.formURL}?businessId=${business.id}`;
+    const resp = await fetchQRCodeAction(formURL);
+
+    setQRImage(resp);
+    setQRLoading(false);
+    onQROpen();
   };
 
   return (
@@ -81,22 +87,35 @@ export default function BusinessDetails({ business }: { business: Business }) {
           </div>
 
           <div className="flex flex-row items-center gap-2 p-2">
-            <Button
-              size="sm"
-              spinnerPlacement="end"
-              variant="bordered"
-              onPress={handleTallyClick}
-            >
-              <div className="flex flex-row justify-center items-center">
-                <StarIcon
-                  size={16}
-                  className="stroke-primary text-primary font-black"
-                />
-                <p className="text-default-600 ml-1 mt-0.5">Revit</p>
-              </div>
-            </Button>
+            {user.id !== business.adminId ? (
+              <Button
+                size="sm"
+                spinnerPlacement="end"
+                variant="bordered"
+                onPress={handleTallyClick}
+              >
+                <div className="flex flex-row justify-center items-center">
+                  <StarIcon
+                    size={16}
+                    className="stroke-primary text-primary font-black"
+                  />
+                  <p className="text-default-600 ml-1 mt-0.5">Revit</p>
+                </div>
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                spinnerPlacement="end"
+                variant="bordered"
+                onPress={onGenerateQRPress}
+              >
+                <div className="flex flex-row justify-center items-center">
+                  <p className="text-default-600 ml-1 mt-0.5">Get Revit QR</p>
+                </div>
+              </Button>
+            )}
 
-            {/* <ForumMenu forum={forum} /> */}
+            <BusinessMenu business={business} />
           </div>
         </div>
         <Divider className="my-3" />
@@ -127,13 +146,14 @@ export default function BusinessDetails({ business }: { business: Business }) {
           {business.description}
         </p>
       </div>
-      {
-        <BusinessReviewCreateModal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
+      <Script src="https://tally.so/widgets/embed.js" />
+      {qrImage && isQROpen && (
+        <QRModal
+          image={qrImage}
+          isOpen={isQROpen}
+          onOpenChange={onQROpenChange}
         />
-      }
-      {<Script src="https://tally.so/widgets/embed.js" />}
+      )}
     </div>
   );
 }

@@ -7,14 +7,17 @@ import { useEffect, useState } from "react";
 import menuData from "./menuData";
 import { useRouter } from "next/navigation";
 import { Button } from "@heroui/react";
+import useHash from "@/src/utils/hooks/Hash";
 
 const MainHeader = () => {
   const router = useRouter();
 
+  const pathUrl = usePathname();
+
+  const hash = useHash();
+
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
-
-  const pathUrl = usePathname();
 
   const onSigninPress = () => {
     router.push("/signin");
@@ -22,6 +25,8 @@ const MainHeader = () => {
   const onSignupPress = () => {
     router.push("/signup");
   };
+
+  console.log("pathUrl", hash);
 
   // Sticky menu
   const handleStickyMenu = () => {
@@ -110,7 +115,7 @@ const MainHeader = () => {
                   <Link
                     href={`${menuItem.path}`}
                     className={
-                      pathUrl === menuItem.path
+                      pathUrl + hash === menuItem.path
                         ? "text-primary hover:text-primary"
                         : "hover:text-primary"
                     }

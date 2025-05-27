@@ -3,7 +3,10 @@ import RightSideBar from "@/src/components/SideBar/Right";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-row justify-center bg-[#000] pt-3">
+    <div
+      className="flex flex-row justify-center bg-[#000] pt-3"
+      suppressHydrationWarning
+    >
       <div className="w-1/12" />
       <div className="w-3/12">
         <LeftSideBar />

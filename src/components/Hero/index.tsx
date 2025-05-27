@@ -24,18 +24,18 @@ const Hero = () => {
               viewport={{ once: true }}
               className="md:w-1/2"
             >
-              <span className="bg-gradient-to-r from-[#FF705B] to-[#FFB457] bg-clip-text text-3xl font-bold text-transparent md:text-5xl">
+              <span className="bg-gradient-to-r from-[#FF705B] to-[#FFB457] bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
                 Review&nbsp;
               </span>
-              <span className="bg-gradient-to-r from-[#FF72E1] to-[#F54C7A] bg-clip-text text-3xl font-bold text-transparent md:text-6xl">
+              <span className="bg-gradient-to-r from-[#FF72E1] to-[#F54C7A] bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
                 Everything
               </span>
-              <div className="mt-10">
+              <div className="mt-10 text-sm md:text-base">
                 <p>
-                  Revit - An all in one place for all reviews. Find ratings,
-                  reviews for what you need. Provide reviews for thing you liked
-                  and did not like. Create review forums and find people with
-                  similar interest to share reviews.
+                  Revit - An all in one place for reviews. Find ratings, reviews
+                  for what you need. Provide reviews for things you like and did
+                  not like. Create review forums and find people with similar
+                  interest to share reviews.
                 </p>
                 <p className="mt-2">
                   Grow your business with revit by getting accurate feedback and

@@ -6,7 +6,7 @@ const featuresData: Feature[] = [
     icon: "/images/icon/icon-01.svg",
     title: "Crafted for People",
     description:
-      "A one stop for sharing reviwes about anything. No more like or dislike, revit on a scale.",
+      "The one-stop for sharing reviwes about anything. No more like or dislike, revit on a scale.",
   },
   {
     id: 2,
@@ -39,9 +39,9 @@ const featuresData: Feature[] = [
   {
     id: 6,
     icon: "/images/icon/icon-06.svg",
-    title: "Manage your Review",
+    title: "AI Analytics",
     description:
-      "Manage reviews in one place instead of going through multiple apps or building your platform from scratch.",
+      "Get AI Analysis of all your reviews in one place and get better understanding of the customer needs.",
   },
 ];
 

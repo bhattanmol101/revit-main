@@ -63,7 +63,7 @@ export async function updateBusiness(
   return res[0].businessId;
 }
 
-export async function fetchAllBusiness(userId: string) {
+export async function fetchUserBusinesses(userId: string) {
   const rows = await db
     .select({
       id: businessTable.id,
@@ -83,6 +83,7 @@ export async function fetchAllBusiness(userId: string) {
     })
     .from(businessTable)
     .innerJoin(profileTable, eq(businessTable.adminId, profileTable.id))
+    .where(eq(businessTable.adminId, userId))
     .orderBy(desc(businessTable.createdAt));
 
   return rows;

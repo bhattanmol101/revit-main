@@ -13,6 +13,7 @@ import {
   validateEmpty,
   validatePassword,
 } from "@/src/utils/validators";
+import { signInWithGoogleAction } from "@/src/app/(site)/(auth)/signin/action";
 
 const Signup = () => {
   const [pageState, setPageState] = useState({
@@ -99,6 +100,7 @@ const Signup = () => {
               color="default"
               fullWidth={true}
               startContent={<GoogleIcon size={22} />}
+              onPress={signInWithGoogleAction}
             >
               Signup with Google
             </Button>

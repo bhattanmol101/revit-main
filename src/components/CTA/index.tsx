@@ -7,7 +7,10 @@ const CTA = () => {
   return (
     <>
       {/* <!-- ===== CTA Start ===== --> */}
-      <section className="overflow-hidden px-4 py-20 md:px-8 lg:py-25 xl:py-30 2xl:px-0">
+      <section
+        id="business"
+        className="overflow-hidden px-4 py-20 md:px-8 lg:py-25 xl:py-30 2xl:px-0"
+      >
         <div className="max-w-c-1390 dark:bg-blacksection dark:stroke-strokedark mx-auto rounded-lg bg-linear-to-t from-[#F8F9FF] to-[#DEE7FF] px-7.5 py-12.5 md:px-12.5 xl:px-17.5 xl:py-0 dark:bg-linear-to-t dark:from-transparent dark:to-transparent">
           <div className="flex flex-wrap gap-8 md:flex-nowrap md:items-center md:justify-between md:gap-0">
             <motion.div
@@ -26,10 +29,10 @@ const CTA = () => {
               viewport={{ once: true }}
               className="animate_left md:w-[70%] lg:w-1/2"
             >
-              <h2 className="xl:text-sectiontitle4 mb-4 w-11/12 text-3xl font-bold text-black dark:text-white">
+              <h2 className="xl:text-sectiontitle4 mb-4 w-11/12 text-2xl md:text-3xl font-bold text-black dark:text-white">
                 Join With Us Today & Grow Your Business
               </h2>
-              <p>
+              <p className="text-sm md:text-base">
                 Join revit and grow your business by getting reviews according
                 to how you want, customise your feedback forms and find all your
                 reviews in one place and manage them with ease.
@@ -60,8 +63,8 @@ const CTA = () => {
                   className="hidden xl:block"
                 />
                 <a
-                  href="/auth/signup"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-black"
+                  href="/signup"
+                  className="text-sm md:text-base inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-black"
                 >
                   Sign up free
                   <Image

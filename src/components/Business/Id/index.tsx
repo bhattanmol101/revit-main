@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Button, useDisclosure, Divider, Spinner } from "@heroui/react";
 import { useParams } from "next/navigation";
 
-import { ForumPost, ForumT } from "@/src/types/forum";
+import { ForumPost, Forum } from "@/src/types/forum";
 import {
   addUserToForumAction,
   fetchForumByIdAction,

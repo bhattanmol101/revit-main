@@ -93,33 +93,41 @@ export function showFooter(path: string) {
   );
 }
 
-export const onTallySubmitHandler = async (
-  data: any,
-  reviewHandler: (review: TallyReviewType) => void
-) => {
+export const convertTallyFormFieldsToReview = (data: any) => {
   let rating = 0;
   let text = "";
   let name = "";
+  let businessId = "";
+  let userId = "";
   let json: JsonFieldType[] = [];
 
   data.fields.map((field: any) => {
-    switch (field.title) {
+    switch (field.label) {
       case "rating":
-        rating = field.answer.value;
+        rating = field.value;
         break;
       case "description":
-        text = field.answer.value;
+        text = field.value;
         break;
       case "name":
-        name = field.answer.value;
+        name = field.value;
         break;
       case "businessId":
+        businessId = field.value;
+        break;
       case "userId":
+        userId = field.value;
         break;
       default:
+        let value = field.value;
+        if (field.type === "DROPDOWN" && field.value) {
+          value = field.options.find(
+            (option: any) => option.id === field.value[0]
+          ).text;
+        }
         json.push({
-          title: field.title,
-          value: field.answer.value,
+          label: field.label,
+          value: value,
           type: field.type,
         });
         break;
@@ -140,8 +148,10 @@ export const onTallySubmitHandler = async (
     rating,
     text,
     name,
+    businessId,
+    userId,
     json,
   };
 
-  reviewHandler(review);
+  return review;
 };

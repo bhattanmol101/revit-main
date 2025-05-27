@@ -1,8 +1,11 @@
 "use server";
 
 import {
+  addReviewToForumPost,
   addUserToForum,
+  deleteForumPost,
   getForumById,
+  getForumPostReviewsById,
   getForumPosts,
   getTopForums,
   getUserCreatedForums,
@@ -11,6 +14,7 @@ import {
   saveForumPost,
 } from "@/src/api/forum";
 import { ForumPostRequest, ForumRequest } from "@/src/types/forum";
+import { ReviewRequest } from "@/src/types/review";
 import { DEFAULT_ERROR_MESSAGE, POST_LIMIT } from "@/src/utils/constants";
 import { uploadFile } from "@/src/utils/utils";
 import { createClient } from "@/supabase/server";
@@ -167,4 +171,53 @@ export const addUserToForumAction = async (userId: string, forumId: string) => {
   }
 
   return { success: true, forums: forums };
+};
+
+export const deleteForumPostAction = async (postId: string) => {
+  const resp = await deleteForumPost(postId);
+
+  if (resp) {
+    return {
+      success: false,
+      error: resp,
+    };
+  }
+
+  return {
+    success: true,
+    error: "",
+  };
+};
+
+export const getForumPostReviewsByIdAction = async (postId: string) => {
+  const resp = await getForumPostReviewsById(postId, "");
+
+  if (!resp) {
+    return {
+      success: false,
+      error: DEFAULT_ERROR_MESSAGE,
+    };
+  }
+
+  return {
+    success: true,
+    error: "",
+    reviews: resp,
+  };
+};
+
+export const addReviewToForumPostAction = async (
+  postId: string,
+  review: ReviewRequest
+) => {
+  const resp = await addReviewToForumPost(postId, review);
+
+  if (!resp) {
+    return {
+      success: false,
+      error: DEFAULT_ERROR_MESSAGE,
+    };
+  }
+
+  return { success: true, error: "" };
 };

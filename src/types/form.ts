@@ -43,6 +43,14 @@ export type BusinessFormProps = {
 
 export type JsonFieldType = {
   type: string;
-  title: string;
+  label: string;
   value: string | number | boolean;
+};
+
+export type ContactForm = {
+  name: string;
+  email: string;
+  subject: string;
+  number: string;
+  message: string;
 };
