@@ -3,4 +3,5 @@ export const routes = {
   home: "/home",
   forums: "/forums",
   business: "/business",
+  profile: "/profile",
 };

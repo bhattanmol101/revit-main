@@ -39,7 +39,7 @@ export default function ForumPostCard({ post }: PostProps) {
             showFallback: true,
           }}
           description={getPostDateString(post.createdAt)}
-          name={post.userName}
+          name={`${post.userName}`}
         />
         <ForumPostCardMenu post={post} />
       </CardHeader>
@@ -68,7 +68,7 @@ export default function ForumPostCard({ post }: PostProps) {
               size="sm"
               value={rating}
             />
-            <p className="font-semibold text-default-400 text-small flex flex-row items-center">
+            <p className="text-default-600 text-small flex flex-row items-center">
               <span>{rating}&nbsp;</span>
               <span>({post.totalReviews})</span>
             </p>

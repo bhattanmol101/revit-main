@@ -10,7 +10,8 @@ import {
 import { useSession } from "@/src/components/Provider";
 import { DeleteIcon, MenuIcon } from "@/src/components/Icons";
 import { Forum } from "@/src/types/forum";
-import { useForumStore } from "@/src/app/store/Forum/Feed";
+import { useRouter } from "next/navigation";
+import { deleteForumAction } from "@/src/app/(site)/(home)/forums/action";
 
 function ForumMenu({ forum }: { forum: Forum }) {
   const { user } = useSession();
@@ -19,13 +20,12 @@ function ForumMenu({ forum }: { forum: Forum }) {
     return;
   }
 
-  const { feed, setFeed } = useForumStore((state) => state);
+  const router = useRouter();
 
   const onMenuAction = (key: Key) => {
     if (key == "delete") {
-      const newFeed = feed.filter((item) => item.id !== forum.id);
-
-      setFeed(newFeed);
+      deleteForumAction(forum.id);
+      router.replace("/forums");
     }
   };
 

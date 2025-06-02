@@ -66,19 +66,16 @@ export default function BusinessReviews() {
     return <BusinessReviewSkeleton count={3} />;
   }
 
+  if (feed.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center py-3">
+        <p>No reviews yet, Be the first one to revit.</p>
+      </div>
+    );
+  }
   const renderPosts = (review: BusinessReview) => {
     return <BusinessReviewCard review={review} key={review.id} />;
   };
 
-  return (
-    <div className="w-full">
-      {feed.length ? (
-        feed.map(renderPosts)
-      ) : (
-        <div className="flex flex-col justify-center items-center py-3">
-          <p>No reviews yet, Be the first one to revit.</p>
-        </div>
-      )}
-    </div>
-  );
+  return <>{feed.map(renderPosts)}</>;
 }

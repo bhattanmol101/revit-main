@@ -1,14 +1,14 @@
 import { InsertPost } from "@/db/schema/post";
 import {
   deletePostById,
-  fetchAllPostByUserId,
-  fetchAllPostsByText,
+  fetchPostById,
+  fetchPostsByText,
+  fetchPostsByUserId,
   fetchTopPost,
   fetchUserFeedPosts,
   insertPost,
 } from "../repo/post";
-import { Post, PostRequest } from "../types/post";
-import { getRating } from "../utils/utils";
+import { PostRequest } from "../types/post";
 
 export async function getUserFeedPosts(
   userId: string,
@@ -24,17 +24,13 @@ export async function getUserFeedPosts(
   }
 }
 
-export async function getAllUserPost(userId: string) {
+export async function getUserPosts(userId: string) {
   try {
-    const resp = await fetchAllPostByUserId(userId);
+    const resp = await fetchPostsByUserId(userId);
 
-    return { success: true, posts: resp };
+    return resp;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-      posts: [],
-    };
+    return null;
   }
 }
 
@@ -65,41 +61,37 @@ export async function deletePost(postId: string) {
   }
 }
 
-export async function getAllPostByText(text: string) {
+export async function searchPostByText(text: string) {
   try {
-    const resp = await fetchAllPostsByText(text);
+    const resp = await fetchPostsByText(text);
 
-    return { success: true, posts: resp.items };
+    return resp;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-      posts: [],
-    };
+    return null;
   }
 }
 
 export async function getTopPost(userId: string) {
   try {
-    const resp = await fetchTopPost(userId);
+    const posts = await fetchTopPost(userId);
 
-    let maxPost: Post | undefined;
+    posts.sort((a, b) => b.rating / b.totalReviews - a.rating / a.totalReviews);
 
-    if (resp) {
-      let maxRating = 0;
-
-      resp.forEach((item) => {
-        let currRating = getRating(item);
-
-        if (maxRating < currRating) {
-          maxRating = currRating;
-          maxPost = item;
-        }
-      });
-    }
-
-    return maxPost;
+    return posts;
   } catch (e: any) {
+    console.log(e);
+    return null;
+  }
+}
+
+export async function getPostById(postId: string) {
+  try {
+    const post = await fetchPostById(postId);
+
+    return post;
+  } catch (e: any) {
+    console.log(e);
+
     return null;
   }
 }

@@ -43,6 +43,8 @@ export default function Signin() {
 
     const res = await signInAction(data);
 
+    console.log(res);
+
     setPageState({
       ...pageState,
       loading: false,

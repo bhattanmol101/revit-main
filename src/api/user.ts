@@ -26,13 +26,24 @@ export async function saveUserProfile(user: User) {
 
 export async function updateUser(userId: string, userRequest: UpdateUser) {
   try {
-    await updateUserProfile(userId, userRequest);
+    const id = await updateUserProfile(userId, userRequest);
 
-    return { success: true, error: "" };
+    return id;
   } catch (e: any) {
-    return {
-      success: false,
-      error: e.message,
-    };
+    return null;
+  }
+}
+
+export async function getUserById(userId: string) {
+  try {
+    const user = await fetchUserById(userId);
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  } catch (e: any) {
+    return null;
   }
 }

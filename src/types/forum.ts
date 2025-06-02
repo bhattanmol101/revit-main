@@ -40,3 +40,12 @@ export interface ForumPost {
   hashtags: string[];
   createdAt: Date;
 }
+
+export type SearchForum = {
+  id: string;
+  adminId: string;
+  logo: string | null;
+  name: string;
+  description: string;
+  createdAt: Date;
+};

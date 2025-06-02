@@ -4,11 +4,6 @@ import {
   addReviewToForumPostAction,
   getForumPostReviewsByIdAction,
 } from "@/src/app/(site)/(home)/forums/action";
-import {
-  addReviewToPostAction,
-  getPostReviewsByIdAction,
-} from "@/src/app/(site)/(home)/home/action";
-import { ReviewItem } from "@/src/components/Common/Review";
 import { SendIcon } from "@/src/components/Icons";
 import { useSession } from "@/src/components/Provider";
 import { PageState } from "@/src/types";
@@ -27,6 +22,7 @@ import {
   Spinner,
 } from "@heroui/react";
 import { useEffect, useState } from "react";
+import { ForumReviewItem } from "./Review";
 
 type PostProps = {
   post: ForumPost;
@@ -101,7 +97,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
   }, []);
 
   const renderReview = (review: Review) => {
-    return <ReviewItem key={review.id} review={review} />;
+    return <ForumReviewItem key={review.id} review={review} />;
   };
 
   return (
@@ -123,7 +119,13 @@ export default function ForumPostCardComment({ post }: PostProps) {
         />
         <div className="flex flex-row gap-3 w-full items-center justify-center pt-3 pb-1">
           <div>
-            <Avatar showFallback radius="full" size="md" src={""} />
+            <Avatar
+              showFallback
+              radius="full"
+              size="md"
+              src={String(user.profileImage)}
+              name={`${user.name}`}
+            />
           </div>
           <Textarea
             aria-label="review"

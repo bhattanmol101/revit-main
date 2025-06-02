@@ -1,4 +1,5 @@
 import {
+  deletePostReviewById,
   fetchAllReviewsByUserId,
   fetchBusinessReviewsById,
   fetchPostReviewsById,
@@ -81,5 +82,15 @@ export async function getBusinessReviewsById(businessId: string) {
       success: false,
       error: e.message,
     };
+  }
+}
+
+export async function deletePostReview(reviewId: string) {
+  try {
+    await deletePostReviewById(reviewId);
+
+    return;
+  } catch (e: any) {
+    return e.message;
   }
 }

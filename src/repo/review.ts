@@ -87,3 +87,9 @@ export async function fetchBusinessReviewsById(businessId: string) {
 
   return rows;
 }
+
+export async function deletePostReviewById(reviewId: string) {
+  await db.delete(reviewTable).where(eq(reviewTable.id, reviewId));
+
+  return;
+}

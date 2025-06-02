@@ -1,5 +1,7 @@
 "use client";
 
+import { fetchUserAction } from "@/src/app/(site)/(auth)/action";
+import { fetchBusinessByIdAction } from "@/src/app/(site)/(home)/business/action";
 import { User } from "@/src/types/user";
 import { createClient } from "@/supabase/client";
 import { Spinner } from "@heroui/react";
@@ -25,19 +27,10 @@ export default function ContextProvider({
 
   useEffect(() => {
     const getUser = async () => {
-      const supabase = createClient();
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
+      const user = await fetchUserAction();
 
-      if (!error && user) {
-        setUser({
-          id: user.id,
-          email: user.user_metadata.email,
-          name: user.user_metadata.name,
-          createdAt: new Date(user.created_at),
-        });
+      if (user) {
+        setUser(user);
       }
       setLoading(false);
     };

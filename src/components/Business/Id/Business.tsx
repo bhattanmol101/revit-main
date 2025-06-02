@@ -142,7 +142,7 @@ export default function BusinessDetails({ business }: { business: Business }) {
           </div>
         </div>
         <Divider className="my-3" />
-        <p className="text-default-700 sm:text-sm text-sm px-2">
+        <p className="text-default-700 sm:text-sm text-sm px-2 whitespace-pre-line">
           {business.description}
         </p>
       </div>

@@ -2,9 +2,12 @@ import { InsertForum, InsertForumUser } from "@/db/schema/forum";
 import { InsertForumPost } from "@/db/schema/post";
 import { ForumPostRequest, ForumRequest } from "../types/forum";
 import {
+  deleteForumById,
   deleteForumPostById,
+  deleteForumPostReviewById,
   fetchForumById,
   fetchForumPostReviewsById,
+  fetchForumsByText,
   fetchPostsByForumId,
   fetchTopForums,
   fetchUserCreatedForums,
@@ -158,6 +161,36 @@ export async function addReviewToForumPost(
     const id = await insertReviewForForumPost(insertReview);
 
     return id;
+  } catch (e: any) {
+    return null;
+  }
+}
+
+export async function deleteForum(forumId: string) {
+  try {
+    await deleteForumById(forumId);
+
+    return;
+  } catch (e: any) {
+    return e.message;
+  }
+}
+
+export async function deleteForumPostReview(reviewId: string) {
+  try {
+    await deleteForumPostReviewById(reviewId);
+
+    return;
+  } catch (e: any) {
+    return e.message;
+  }
+}
+
+export async function searchForumByText(text: string) {
+  try {
+    const resp = await fetchForumsByText(text);
+
+    return resp;
   } catch (e: any) {
     return null;
   }

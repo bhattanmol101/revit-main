@@ -4,7 +4,7 @@ import {
   addReviewToPostAction,
   getPostReviewsByIdAction,
 } from "@/src/app/(site)/(home)/home/action";
-import { ReviewItem } from "@/src/components/Common/Review";
+import { ReviewItem } from "@/src/components/Post/Card/Comment/Review";
 import { SendIcon } from "@/src/components/Icons";
 import { useSession } from "@/src/components/Provider";
 import { PageState } from "@/src/types";
@@ -119,7 +119,13 @@ export default function PostCardComment({ post }: PostProps) {
         />
         <div className="flex flex-row gap-3 w-full items-center justify-center pt-3 pb-1">
           <div>
-            <Avatar showFallback radius="full" size="md" src={""} />
+            <Avatar
+              showFallback
+              radius="full"
+              size="md"
+              src={String(user.profileImage)}
+              name={`${user.name}`}
+            />
           </div>
           <Textarea
             aria-label="review"

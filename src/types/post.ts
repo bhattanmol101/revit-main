@@ -36,3 +36,12 @@ export interface PostRequest {
   fileList?: string[];
   hashtags?: string[];
 }
+
+export interface SearchPost {
+  id: string;
+  userId: string;
+  userName: string;
+  userProfileImage: string | null;
+  text: string | null;
+  createdAt: Date;
+}

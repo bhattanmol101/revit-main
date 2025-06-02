@@ -1,7 +1,10 @@
-import { createClient } from "@/supabase/client";
+"use server";
+
+import { fetchUserById } from "@/src/repo/user";
+import { createClient } from "@/supabase/server";
 
 export const fetchUserAction = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
     error,
@@ -11,10 +14,15 @@ export const fetchUserAction = async () => {
 
   if (!user) return null;
 
+  const profile = await fetchUserById(user.id);
+
+  if (!profile) return null;
+
   return {
-    id: user.id,
-    email: user.user_metadata.email,
-    name: user.user_metadata.name,
-    createdAt: new Date(user.created_at),
+    id: profile.id,
+    email: profile.email,
+    name: profile.name,
+    profileImage: profile.profileImage,
+    createdAt: profile.createdAt,
   };
 };

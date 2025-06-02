@@ -2,7 +2,6 @@
 
 import { useSession } from "../../Provider";
 import { Avatar, Button, Divider, useDisclosure } from "@heroui/react";
-import { useRouter } from "next/navigation";
 import { AddIcon, StarIcon } from "../../Icons";
 import ForumCreateModal from "../../Forum/Create";
 import PostCreateModal from "../../Post/Create";
@@ -14,8 +13,6 @@ const LeftSideBar = () => {
   if (!user) {
     return;
   }
-
-  const router = useRouter();
 
   const {
     isOpen: isPostOpen,
@@ -35,11 +32,20 @@ const LeftSideBar = () => {
     onOpenChange: onBusinessOpenChange,
   } = useDisclosure();
 
+  const profileImage = user.profileImage
+    ? `${user.profileImage}?width=50&height=50`
+    : "";
+
   return (
     <div className="fixed w-3/12 px-10 pt-5">
       <div className="flex flex-col items-start gap-8">
-        <div className="rounded-xl px-5 py-7 w-full flex flex-row gap-4 bg-default-50">
-          <Avatar className="w-12 h-10 rounded-full" src="" showFallback />
+        <div className="rounded-xl px-5 py-7 w-full flex flex-row items-center gap-4 bg-default-50">
+          <Avatar
+            className="w-14 h-12 rounded-full"
+            src={profileImage}
+            name={`${user.name}`}
+            showFallback
+          />
           <Button
             fullWidth
             startContent={<StarIcon />}

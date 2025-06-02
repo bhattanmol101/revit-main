@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import {
@@ -95,7 +95,7 @@ export async function fetchTopForums(userId: string) {
     .from(forumUserTable)
     .groupBy(forumUserTable.forumId)
     .orderBy(desc(sql`count(${forumUserTable.userId})`))
-    .limit(5)
+    .limit(3)
     .as("top_forums");
 
   const rows = await db
@@ -208,4 +208,43 @@ export async function insertReviewForForumPost(review: InsertForumReview) {
     .returning({ reviewId: forumReviewTable.id });
 
   return res[0].reviewId;
+}
+
+export async function deleteForumPostReviewById(reviewId: string) {
+  await db.delete(forumReviewTable).where(eq(forumReviewTable.id, reviewId));
+
+  return;
+}
+
+export async function deleteForumById(forumId: string) {
+  await db.transaction(async (tx) => {
+    await tx.delete(forumTable).where(eq(forumTable.id, forumId));
+
+    await tx.delete(forumPostTable).where(eq(forumPostTable.forumId, forumId));
+  });
+
+  return;
+}
+
+export async function fetchForumsByText(text: string) {
+  const rows = await db
+    .select({
+      id: forumTable.id,
+      adminId: forumTable.adminId,
+      name: forumTable.name,
+      logo: forumTable.logo,
+      description: forumTable.description,
+      createdAt: forumTable.createdAt,
+    })
+    .from(forumTable)
+    .where(
+      or(
+        ilike(forumTable.name, `%${text}%`),
+        ilike(forumTable.description, `%${text}%`)
+      )
+    )
+    .orderBy(desc(forumTable.createdAt))
+    .limit(5);
+
+  return rows;
 }

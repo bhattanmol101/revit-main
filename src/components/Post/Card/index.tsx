@@ -67,7 +67,7 @@ export default function PostCard({ post }: PostProps) {
               size="sm"
               value={rating}
             />
-            <p className="font-semibold text-default-400 text-small flex flex-row items-center">
+            <p className="text-default-600 text-small flex flex-row items-center">
               <span>{rating}&nbsp;</span>
               <span>({post.totalReviews})</span>
             </p>

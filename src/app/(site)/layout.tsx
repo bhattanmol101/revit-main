@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`dark:bg-gray-950 ${inter.className}`}>
-        <HeroUIProvider>
+        <HeroUIProvider locale="en-GB">
           <ThemeProvider
             enableSystem={false}
             attribute="class"

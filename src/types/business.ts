@@ -36,3 +36,12 @@ export interface UpdateBusiness {
   website?: string;
   industry: string;
 }
+
+export interface SearchBusiness {
+  id: string;
+  adminId: string;
+  name: string;
+  description: string;
+  logo?: string | null;
+  createdAt: Date;
+}

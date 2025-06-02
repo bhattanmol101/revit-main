@@ -69,12 +69,10 @@ export default function ForumById() {
   };
 
   useEffect(() => {
-    console.log("Fetching forum by id:", id);
     fetchForum();
   }, []);
 
   useEffect(() => {
-    console.log("Fetching forum posts for page:", page);
     fetchForumPosts();
   }, [page]);
 
@@ -96,11 +94,8 @@ export default function ForumById() {
   }
 
   const onJoinForumPress = async () => {
-    const resp = await addUserToForumAction(user.id, String(id));
-
-    if (resp.success) {
-      setForum({ ...forum, joined: 1 });
-    }
+    setForum({ ...forum, joined: 1 });
+    await addUserToForumAction(user.id, String(id));
   };
 
   const renderPosts = (post: ForumPost, index: number) => {
@@ -121,6 +116,7 @@ export default function ForumById() {
           <div className="flex flex-row items-center ">
             <Avatar
               showFallback
+              name={`${forum.name}`}
               className="sm:w-24 sm:h-24 h-20 w-20"
               src={String(forum.logo)}
             />
@@ -128,39 +124,43 @@ export default function ForumById() {
               <p className="sm:text-xl font-bold text-default-600">
                 {forum.name}
               </p>
-              <p className="text-default-500 sm:text-sm text-sm">
+              <p className="text-default-500 text-sm pt-1">
+                Creator: {forum.userName}
+              </p>
+              <p className="text-default-500 text-tiny pt-0.5">
                 Since: {getJoingDateString(new Date(forum.createdAt))}
               </p>
             </div>
           </div>
 
           <div className="flex flex-row items-center gap-2 p-2">
-            {forum.joined === 0 ? (
-              <Button
-                color="primary"
-                size="sm"
-                variant="bordered"
-                spinnerPlacement="end"
-                onPress={onJoinForumPress}
-              >
-                Join
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                spinnerPlacement="end"
-                variant="bordered"
-                onPress={onOpen}
-              >
-                <div className="flex flex-row justify-center items-center">
-                  <StarIcon
-                    size={16}
-                    className="stroke-primary text-primary font-black"
-                  />
-                  <p className="text-default-600 ml-1 mt-0.5">Revit</p>
-                </div>
-              </Button>
-            )}
+            {forum.adminId !== user.id &&
+              (forum.joined === 0 ? (
+                <Button
+                  color="primary"
+                  size="sm"
+                  variant="bordered"
+                  spinnerPlacement="end"
+                  onPress={onJoinForumPress}
+                >
+                  Join
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  spinnerPlacement="end"
+                  variant="bordered"
+                  onPress={onOpen}
+                >
+                  <div className="flex flex-row justify-center items-center">
+                    <StarIcon
+                      size={16}
+                      className="stroke-primary text-primary font-black"
+                    />
+                    <p className="text-default-600 ml-1 mt-0.5">Revit</p>
+                  </div>
+                </Button>
+              ))}
             <ForumMenu forum={forum} />
           </div>
         </div>
@@ -175,10 +175,11 @@ export default function ForumById() {
         : !feedLoading && (
             <div className="flex flex-col justify-center items-center py-3">
               <p>
-                No reviews yet,
-                {forum.joined
-                  ? " Be the first one to add a review."
-                  : " Join and add your review."}
+                No reviews yet
+                {forum.adminId !== user.id &&
+                  (forum.joined
+                    ? ", Be the first one to add a review."
+                    : ", Join and add your review.")}
               </p>
             </div>
           )}

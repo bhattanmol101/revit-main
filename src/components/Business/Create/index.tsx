@@ -143,7 +143,7 @@ export default function BusinessCreateModal(props: ModalProps) {
         </ModalBody>
         <ModalFooter className="flex flex-row justify-end border-t-1 border-default-200">
           <Button
-            isDisabled={currentStep === 0}
+            isDisabled={currentStep === 0 || pageState.loading}
             onPress={goToPreviousStep}
             size="sm"
           >

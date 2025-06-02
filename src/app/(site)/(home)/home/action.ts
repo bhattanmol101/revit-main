@@ -2,7 +2,6 @@
 
 import {
   deletePost,
-  getAllPostByText,
   getTopPost,
   getUserFeedPosts,
   savePost,
@@ -117,19 +116,6 @@ export const deletePostAction = async (postId: string) => {
   return {
     success: true,
     error: "",
-  };
-};
-
-export const getAllPostByTextAction = async (text: string) => {
-  const resp = await getAllPostByText(text);
-
-  return {
-    success: resp.success,
-    error: {
-      code: 102,
-      message: resp.error,
-    },
-    posts: resp.posts,
   };
 };
 

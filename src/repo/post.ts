@@ -18,7 +18,7 @@ export async function fetchPostById(postId: string) {
   const rows = await db
     .select({
       id: postTable.id,
-      userId: postTable.userId,
+      userId: profileTable.id,
       userName: profileTable.name,
       userProfileImage: profileTable.profileImage,
       text: postTable.text,
@@ -29,8 +29,9 @@ export async function fetchPostById(postId: string) {
       createdAt: postTable.createdAt,
     })
     .from(postTable)
-    .leftJoin(reviewTable, eq(postTable.id, reviewTable.postId))
     .innerJoin(profileTable, eq(postTable.userId, profileTable.id))
+    .leftJoin(reviewTable, eq(reviewTable.postId, postTable.id))
+    .groupBy(postTable.id, profileTable.id)
     .where(eq(postTable.id, postId));
 
   return rows[0];
@@ -46,7 +47,7 @@ export async function deletePostById(postId: string) {
   return;
 }
 
-export async function fetchAllPostByUserId(userId: string) {
+export async function fetchPostsByUserId(userId: string) {
   const rows = await db
     .select({
       id: postTable.id,
@@ -101,7 +102,7 @@ export async function fetchUserFeedPosts(
   };
 }
 
-export async function fetchAllPostsByText(text: string) {
+export async function fetchPostsByText(text: string) {
   const rows = await db
     .select({
       id: postTable.id,
@@ -109,10 +110,6 @@ export async function fetchAllPostsByText(text: string) {
       userName: profileTable.name,
       userProfileImage: profileTable.profileImage,
       text: postTable.text,
-      fileList: postTable.files,
-      rating: sql<number>`sum(${reviewTable.rating})`,
-      totalReviews: sql<number>`count(${reviewTable.id})`,
-      hashtags: postTable.hashtags,
       createdAt: postTable.createdAt,
     })
     .from(postTable)
@@ -123,12 +120,30 @@ export async function fetchAllPostsByText(text: string) {
     .orderBy(desc(postTable.createdAt))
     .limit(5);
 
-  return {
-    items: rows,
-  };
+  return rows;
 }
 
 export async function fetchTopPost(userId: string) {
+  /* 
+  TODO: This should happend when there are posts regularly
+   const fromDate = new Date();
+   const toDate = fromDate;
+   fromDate.setDate(fromDate.getDate() - 7);
+  */
+
+  const topPosts = db
+    .select({
+      id: reviewTable.postId,
+      rating: sql<number>`sum(${reviewTable.rating})`.as("rating"),
+      totalReviews: sql<number>`count(${reviewTable.id})`.as("totalReviews"),
+    })
+    .from(reviewTable)
+    // .where(between(reviewTable.createdAt, fromDate, toDate))
+    .groupBy(reviewTable.postId)
+    .orderBy(desc(sql`count(${reviewTable.id})`))
+    .limit(3)
+    .as("top_posts");
+
   const rows = await db
     .select({
       id: postTable.id,
@@ -137,17 +152,15 @@ export async function fetchTopPost(userId: string) {
       userProfileImage: profileTable.profileImage,
       text: postTable.text,
       fileList: postTable.files,
-      rating: sql<number>`sum(${reviewTable.rating})`,
-      totalReviews: sql<number>`count(${reviewTable.id})`,
+      rating: topPosts.rating,
+      totalReviews: topPosts.totalReviews,
       hashtags: postTable.hashtags,
       createdAt: postTable.createdAt,
     })
     .from(postTable)
     .innerJoin(profileTable, eq(postTable.userId, profileTable.id))
-    .leftJoin(reviewTable, eq(reviewTable.postId, postTable.id))
-    .groupBy(postTable.id, profileTable.id)
-    .orderBy(desc(postTable.createdAt))
-    .limit(100);
+    .innerJoin(topPosts, eq(topPosts.id, postTable.id))
+    .orderBy(desc(postTable.createdAt));
 
   return rows;
 }

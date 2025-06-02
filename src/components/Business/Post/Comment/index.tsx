@@ -4,7 +4,7 @@ import {
   addReviewToPostAction,
   getPostReviewsByIdAction,
 } from "@/src/app/(site)/(home)/home/action";
-import { ReviewItem } from "@/src/components/Common/Review";
+import { ReviewItem } from "@/src/components/Post/Card/Comment/Review";
 import { SendIcon } from "@/src/components/Icons";
 import { useSession } from "@/src/components/Provider";
 import { PageState } from "@/src/types";

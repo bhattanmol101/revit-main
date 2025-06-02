@@ -1,34 +1,195 @@
 "use client";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import menuData from "./menuData";
 import { useRouter } from "next/navigation";
-import { Button } from "@heroui/react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   Input,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
   Avatar,
+  Spinner,
 } from "@heroui/react";
-import { HomeIcon, SearchIcon } from "../../Icons";
+import { SearchIcon } from "../../Icons";
+import { useSession } from "../../Provider";
+import { logoutUserAction } from "@/src/app/(site)/(home)/profile/action";
+import { useEffect, useRef, useState } from "react";
+import {
+  searchBusinessByTextAction,
+  searchForumByTextAction,
+  searchPostByTextAction,
+} from "@/src/app/(site)/(home)/search/action";
+import { SearchPost } from "@/src/types/post";
+import { Forum, SearchForum } from "@/src/types/forum";
+import { Business, SearchBusiness } from "@/src/types/business";
+import SearchPostCard from "../../Search/Post";
+import ForumCard from "../../Forum/Card";
+import SearchForumCard from "../../Search/Forum";
+import SearchBusinessCard from "../../Search/Business";
 
 const HomeHeader = () => {
+  const { user } = useSession();
+
+  if (!user) {
+    return;
+  }
+
   const router = useRouter();
 
   const pathUrl = usePathname();
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [searchTitle, setSearchTitle] = useState("posts");
+  const [showSearch, setShowSearch] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [posts, setPosts] = useState<SearchPost[]>();
+  const [forums, setForums] = useState<SearchForum[]>();
+  const [businesses, setBusinesses] = useState<SearchBusiness[]>();
+
   const handleTopNavClick = (pathUrl: string) => {
     router.push(pathUrl);
   };
+
+  const handleProfilePress = () => {
+    router.push("/profile");
+  };
+
+  const handleLogoutPress = async () => {
+    const res = await logoutUserAction();
+
+    if (res.success) {
+      router.replace("/signin");
+    }
+  };
+
+  const handleSearchInput = async (value: string) => {
+    setSearch(value);
+    if (value.length < 3) {
+      setShowSearch(false);
+      return;
+    }
+    !showSearch && setShowSearch(true);
+
+    setSearching(true);
+
+    switch (true) {
+      case pathUrl.includes("forums"):
+        setSearchTitle("forums");
+        const fResp = await searchForumByTextAction(value);
+        setSearching(false);
+        if (fResp.success) {
+          setForums(fResp.forums);
+        }
+        break;
+      case pathUrl.includes("business"):
+        setSearchTitle("business");
+        const bResp = await searchBusinessByTextAction(value);
+        setSearching(false);
+        if (bResp.success) {
+          setBusinesses(bResp.businesses);
+        }
+        break;
+      default:
+        setSearchTitle("posts");
+        const resp = await searchPostByTextAction(value);
+        setSearching(false);
+        if (resp.success) {
+          setPosts(resp.posts);
+        }
+        break;
+    }
+  };
+
+  const profileImage = user.profileImage
+    ? `${user.profileImage}?width=70&height=70`
+    : "";
+
+  const renderSearch = () => {
+    if (searching) {
+      return;
+    }
+    switch (true) {
+      case pathUrl.includes("forums"):
+        if (!forums || forums.length === 0) {
+          return <p className="text-sm">No forums found, try again!</p>;
+        }
+        return forums.flatMap((item) => (
+          <SearchForumCard
+            key={item.id}
+            forum={item}
+            cleanupFunction={cleanupFunction}
+          />
+        ));
+      case pathUrl.includes("business"):
+        if (!businesses || businesses.length === 0) {
+          return <p className="text-sm">No businesses found, try again!</p>;
+        }
+        return businesses.flatMap((item) => (
+          <SearchBusinessCard
+            key={item.id}
+            business={item}
+            cleanupFunction={cleanupFunction}
+          />
+        ));
+      default:
+        if (!posts || posts.length === 0) {
+          return <p className="text-sm">No posts found, try again!</p>;
+        }
+        return posts.flatMap((item) => (
+          <SearchPostCard
+            key={item.id}
+            post={item}
+            cleanupFunction={cleanupFunction}
+          />
+        ));
+    }
+  };
+
+  const cleanupFunction = () => {
+    setShowSearch(false);
+    setSearch("");
+    setSearching(false);
+    setPosts(undefined);
+    setForums(undefined);
+    setBusinesses(undefined);
+  };
+
+  useEffect(() => {
+    const handleOutSideClick = (event: Event) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        cleanupFunction();
+      }
+    };
+
+    window.addEventListener("mousedown", handleOutSideClick);
+
+    return () => {
+      window.removeEventListener("mousedown", handleOutSideClick);
+    };
+  }, [ref]);
+
+  useEffect(() => {
+    switch (true) {
+      case pathUrl.includes("forums"):
+        setSearchTitle("forums");
+        break;
+      case pathUrl.includes("business"):
+        setSearchTitle("business");
+        break;
+      default:
+        setSearchTitle("posts");
+        break;
+    }
+  }, [pathUrl]);
 
   return (
     <Navbar isBordered maxWidth="2xl">
@@ -65,19 +226,31 @@ const HomeHeader = () => {
         ))}
       </NavbarContent>
       <NavbarContent as="div" className="items-center" justify="end">
-        <Input
-          classNames={{
-            base: "sm:max-w-[20rem] h-11",
-            mainWrapper: "h-full",
-            input: "text-small",
-            inputWrapper:
-              "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-          }}
-          placeholder="Type to search..."
-          size="sm"
-          startContent={<SearchIcon size={18} />}
-          type="search"
-        />
+        <div className="relative" ref={ref}>
+          <Input
+            classNames={{
+              base: "sm:w-[22rem] h-11",
+              mainWrapper: "h-full",
+              input: "text-small",
+              inputWrapper:
+                "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+            }}
+            placeholder={`Type to search ${searchTitle}...`}
+            size="sm"
+            startContent={<SearchIcon size={18} />}
+            type="search"
+            value={search}
+            onValueChange={handleSearchInput}
+          />
+          {showSearch && (
+            <div className="bg-default-100 h-96 absolute mt-1 w-full rounded-xl py-2 px-1 flex flex-col items-center overflow-y-auto">
+              {searching && <Spinner size="sm" />}
+              <div className="flex flex-col gap-1 w-full items-center">
+                {renderSearch()}
+              </div>
+            </div>
+          )}
+        </div>
         <Dropdown placement="bottom-end" shouldBlockScroll={false}>
           <DropdownTrigger>
             <Avatar
@@ -85,17 +258,25 @@ const HomeHeader = () => {
               as="button"
               className="transition-transform hover:cursor-pointer"
               color="secondary"
-              name="Jason Hughes"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              name={`${user.name}`}
+              src={profileImage}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
+            <DropdownItem
+              key="profile"
+              className="h-14 gap-2"
+              onPress={handleProfilePress}
+            >
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{user.email}</p>
             </DropdownItem>
             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem
+              key="logout"
+              color="danger"
+              onPress={handleLogoutPress}
+            >
               Log Out
             </DropdownItem>
           </DropdownMenu>

@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, ilike, or } from "drizzle-orm";
 
 import { db } from "@/db";
 import {
@@ -117,4 +117,27 @@ export async function deleteBusinessReviewById(reviewId: string) {
     .where(eq(businessReviewTable.id, reviewId));
 
   return;
+}
+
+export async function fetchBusinessByText(text: string) {
+  const rows = await db
+    .select({
+      id: businessTable.id,
+      adminId: businessTable.adminId,
+      name: businessTable.name,
+      logo: businessTable.logo,
+      description: businessTable.description,
+      createdAt: businessTable.createdAt,
+    })
+    .from(businessTable)
+    .where(
+      or(
+        ilike(businessTable.name, `%${text}%`),
+        ilike(businessTable.description, `%${text}%`)
+      )
+    )
+    .orderBy(desc(businessTable.createdAt))
+    .limit(5);
+
+  return rows;
 }

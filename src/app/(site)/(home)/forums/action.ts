@@ -3,7 +3,9 @@
 import {
   addReviewToForumPost,
   addUserToForum,
+  deleteForum,
   deleteForumPost,
+  deleteForumPostReview,
   getForumById,
   getForumPostReviewsById,
   getForumPosts,
@@ -213,6 +215,32 @@ export const addReviewToForumPostAction = async (
   const resp = await addReviewToForumPost(postId, review);
 
   if (!resp) {
+    return {
+      success: false,
+      error: DEFAULT_ERROR_MESSAGE,
+    };
+  }
+
+  return { success: true, error: "" };
+};
+
+export const deleteForumAction = async (forumId: string) => {
+  const resp = await deleteForum(forumId);
+
+  if (resp) {
+    return {
+      success: false,
+      error: DEFAULT_ERROR_MESSAGE,
+    };
+  }
+
+  return { success: true, error: "" };
+};
+
+export const deleteForumPostReviewByIdAction = async (reviewId: string) => {
+  const resp = await deleteForumPostReview(reviewId);
+
+  if (resp) {
     return {
       success: false,
       error: DEFAULT_ERROR_MESSAGE,

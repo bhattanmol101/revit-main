@@ -3,6 +3,7 @@ import { BusinessRequest, UpdateBusiness } from "../types/business";
 import {
   deleteBusinessReviewById,
   fetchBusinessById,
+  fetchBusinessByText,
   fetchBusinessReviews,
   fetchUserBusinesses,
   insertBusiness,
@@ -85,5 +86,15 @@ export async function removeBusinessReview(reviewId: string) {
     return;
   } catch (e: any) {
     return DEFAULT_ERROR_MESSAGE;
+  }
+}
+
+export async function searchBusinessByText(text: string) {
+  try {
+    const resp = await fetchBusinessByText(text);
+
+    return resp;
+  } catch (e: any) {
+    return null;
   }
 }

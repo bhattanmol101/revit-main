@@ -6,6 +6,7 @@ import { Business } from "@/src/types/business";
 import { fetchUserBusinessesAction } from "@/src/app/(site)/(home)/business/action";
 import BusinessCard from "./Card";
 import BusinessSkeleton from "../Common/Skeletons/Business";
+import { Tab, Tabs } from "@heroui/react";
 
 export default function Businesses() {
   const { user } = useSession();
@@ -47,5 +48,17 @@ export default function Businesses() {
       </p>
     );
   }
-  return <>{businesses.flatMap(renderBusiness)}</>;
+  return (
+    <div>
+      <Tabs aria-label="Options" fullWidth>
+        <Tab
+          key="business"
+          className="w-full flex flex-col items-center"
+          title="Your Businesses"
+        >
+          {businesses.flatMap(renderBusiness)}
+        </Tab>
+      </Tabs>
+    </div>
+  );
 }
