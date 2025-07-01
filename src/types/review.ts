@@ -22,7 +22,6 @@ export interface BusinessReview {
   userId?: string | null;
   userName?: string | null;
   userProfileImage?: string | null;
-  name?: string | null;
   text?: string | null;
   rating: number;
   json: JsonFieldType[] | any;
@@ -32,9 +31,9 @@ export interface BusinessReview {
 export interface BusinessReviewRequest {
   userId?: string;
   businessId: string;
-  userName?: string;
+  name: string;
   rating: number;
-  text?: string;
+  text: string;
   json?: JsonFieldType[];
 }
 

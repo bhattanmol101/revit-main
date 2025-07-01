@@ -21,7 +21,7 @@ export default function BusinessReviewCard({
         return Number(field.value) > 0 ? (
           <Slider
             aria-label="Volume"
-            label={LABEL_MAPPER.get(field.title)}
+            label={LABEL_MAPPER.get(field.label)}
             color="primary"
             hideThumb
             classNames={{
@@ -36,11 +36,11 @@ export default function BusinessReviewCard({
             size="sm"
           />
         ) : null;
-      case "INPUT_TEXT":
+      case "INPUT":
       case "DROPDOWN":
-        return field.value ? (
+        return field.value && field.value !== "0" ? (
           <Input
-            label={LABEL_MAPPER.get(field.title)}
+            label={LABEL_MAPPER.get(field.label)}
             type="text"
             classNames={{
               input: "text-tiny",
@@ -75,24 +75,34 @@ export default function BusinessReviewCard({
       }
     }
 
+    if (jsonFieldGrid[0].length === 0) {
+      return;
+    }
+
     return (
-      <div className="flex flex-col gap-4">
-        {jsonFieldGrid.map((row: any, index: number) => (
-          <div
-            key={index}
-            className="flex flex-row gap-2 items-center justify-center w-full"
-          >
-            {row.map(
-              (field: JSX.Element, fieldIndex: number) =>
-                field && (
-                  <div key={fieldIndex} className="w-full">
-                    {field}
-                  </div>
-                )
-            )}
-          </div>
-        ))}
-      </div>
+      <>
+        <Divider className="my-3" />
+        <div className="flex flex-col gap-4">
+          {jsonFieldGrid.map(
+            (row: JSX.Element[], index: number) =>
+              row.length > 0 && (
+                <div
+                  key={index}
+                  className="flex flex-row gap-2 items-center justify-center w-full"
+                >
+                  {row.map(
+                    (field: JSX.Element, fieldIndex: number) =>
+                      field && (
+                        <div key={fieldIndex} className="w-full">
+                          {field}
+                        </div>
+                      )
+                  )}
+                </div>
+              )
+          )}
+        </div>
+      </>
     );
   };
 
@@ -103,15 +113,14 @@ export default function BusinessReviewCard({
           avatarProps={{
             src: String(review.userProfileImage),
             showFallback: true,
+            name: `${review.userName}`,
+            className: "h-8 w-8 sm:h-10 sm:w-10",
+          }}
+          classNames={{
+            name: "text-tiny sm:text-base",
           }}
           description={getPostDateString(review.createdAt)}
-          name={
-            review.name
-              ? review.name
-              : review.userName
-                ? review.userName
-                : "Anonymous"
-          }
+          name={`${review.userName}`}
         />
         <BusinessReviewMenu review={review} />
       </CardHeader>
@@ -123,8 +132,8 @@ export default function BusinessReviewCard({
           hideThumb
           classNames={{
             labelWrapper: "mb-0",
-            label: "text-default-600",
-            value: "text-default-600",
+            label: "text-default-600 text-tiny sm:text-sm",
+            value: "text-default-600 text-tiny sm:text-sm",
             track: "m-0 p-0",
           }}
           maxValue={5}
@@ -133,11 +142,10 @@ export default function BusinessReviewCard({
           size="sm"
         />
         <Divider className="my-3" />
-        <p className="text-small text-default-600 whitespace-pre-line">
+        <p className="text-tiny sm:text-sm text-default-600 whitespace-pre-line">
           {review.text}
         </p>
-        <Divider className="my-3" />
-        {review.json.length > 0 && renderJsonFields(review.json)}
+        {renderJsonFields(review.json)}
       </CardBody>
     </Card>
   );

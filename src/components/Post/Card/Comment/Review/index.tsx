@@ -1,7 +1,6 @@
 import { Slider } from "@heroui/slider";
 import { Avatar } from "@heroui/avatar";
 import { Review } from "@/src/types/review";
-import CommentCardMenu from "../Menu";
 import { useState } from "react";
 import PostReviewMenu from "../Menu";
 
@@ -15,6 +14,7 @@ export const ReviewItem = ({ review }: { review: Review }) => {
       <div className="mt-1">
         <Avatar
           showFallback
+          className="h-8 w-8 sm:h-8 sm:w-10"
           name={`${review.userName}`}
           src={String(review.userProfileImage)}
         />
@@ -39,7 +39,6 @@ export const ReviewItem = ({ review }: { review: Review }) => {
           />
           <PostReviewMenu review={review} setHidden={setHidden} />
         </div>
-
         <p className="text-tiny text-default-600 pt-1">{review.text}</p>
       </div>
     </div>

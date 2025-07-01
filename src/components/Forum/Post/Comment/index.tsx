@@ -102,11 +102,13 @@ export default function ForumPostCardComment({ post }: PostProps) {
 
   return (
     <>
-      <CardFooter className="flex flex-col border-t-1 border-default-200 py-4 px-3">
+      <CardFooter className="flex flex-col border-t-1 border-default-200 sm:py-4 sm:px-3 p-2">
         <Slider
           className="w-full"
           classNames={{
             labelWrapper: "p-1",
+            label: "text-tiny sm:text-sm",
+            value: "text-tiny sm:text-sm",
           }}
           color="primary"
           label={`Rate ${post.userName}'s post`}
@@ -123,6 +125,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
               showFallback
               radius="full"
               size="md"
+              className="sm:h-10 sm:w-10 h-8 w-8"
               src={String(user.profileImage)}
               name={`${user.name}`}
             />
@@ -131,6 +134,9 @@ export default function ForumPostCardComment({ post }: PostProps) {
             aria-label="review"
             errorMessage="Please enter a valid review"
             minRows={1}
+            classNames={{
+              input: "text-tiny sm:text-base",
+            }}
             name="review"
             value={text}
             placeholder="What do you think about it...."
@@ -145,7 +151,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
             onPress={onSubmit}
             isIconOnly
           >
-            <SendIcon size={20} />
+            <SendIcon size={20} className="h-4 sm:h-6" />
           </Button>
         </div>
       </CardFooter>
@@ -153,6 +159,9 @@ export default function ForumPostCardComment({ post }: PostProps) {
         <Alert
           className="sm:mb-5 mb-2"
           color="warning"
+          classNames={{
+            title: "text-tiny sm:text-base",
+          }}
           title={pageState.error}
         />
       )}
@@ -162,7 +171,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
         ) : reviews.length ? (
           reviews.flatMap(renderReview)
         ) : (
-          <p className="text-center text-default-500 text-sm">
+          <p className="text-center text-default-500 sm:text-sm text-tiny">
             No reviews yet, Be the first one to review!
           </p>
         )}

@@ -54,16 +54,16 @@ export async function addReviewToBusiness(
   businessId: string,
   businessReview: BusinessReviewRequest
 ) {
-  const insertReview: InsertBusinessReview = {
-    businessId: businessId,
-    userName: businessReview.userName,
-    userId: businessReview.userId,
-    rating: businessReview.rating,
-    text: businessReview.text,
-    json: businessReview.json,
-  };
-
   try {
+    const insertReview: InsertBusinessReview = {
+      businessId: businessId,
+      name: businessReview.name,
+      userId: businessReview.userId,
+      rating: businessReview.rating,
+      text: businessReview.text,
+      json: businessReview.json,
+    };
+
     const id = await insertReviewForBusiness(insertReview);
 
     return id;

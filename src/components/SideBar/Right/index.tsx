@@ -17,6 +17,7 @@ import { User } from "@/src/types/user";
 import { fetchUserProfileAction } from "@/src/app/(site)/(home)/profile/action";
 import ProfileDetails from "../../Profile/Details";
 import RightPostCard from "../../Post/Card/Right";
+import LeftSideBar from "../Left";
 
 const RightSideBar = () => {
   const { user } = useSession();
@@ -33,8 +34,6 @@ const RightSideBar = () => {
   const [loading, setLoading] = useState<boolean>();
   const [post, setPost] = useState<Post[]>();
   const [forums, setForums] = useState<Forum[]>([]);
-  const [business, setBusiness] = useState<Business>();
-  const [profile, setProfile] = useState<User>();
 
   const fetchTopPost = async () => {
     if (!post) {
@@ -60,33 +59,6 @@ const RightSideBar = () => {
     }
   };
 
-  const fetchBusiness = async () => {
-    if (!id) {
-      return;
-    }
-    if (!business) {
-      setLoading(true);
-      const resp = await fetchBusinessByIdAction(String(id));
-
-      setLoading(false);
-      if (resp.business) {
-        setBusiness(resp.business);
-      }
-    }
-  };
-
-  const fetchUserProfile = async () => {
-    if (!profile) {
-      setLoading(true);
-      const resp = await fetchUserProfileAction(user.id);
-
-      setLoading(false);
-      if (resp.profile) {
-        setProfile(resp.profile);
-      }
-    }
-  };
-
   const handlePathNameUpdate = async () => {
     switch (true) {
       case pathName.includes(routes.home):
@@ -99,12 +71,6 @@ const RightSideBar = () => {
         break;
       case pathName === routes.business:
         setTitle("");
-        break;
-      case pathName.includes(`${routes.business}/`):
-        fetchBusiness();
-        break;
-      case pathName.includes(`${routes.profile}`):
-        fetchUserProfile();
         break;
       default:
         console.log("default");
@@ -134,21 +100,13 @@ const RightSideBar = () => {
       case pathName.includes(`${routes.business}/`):
         return (
           <div className="flex flex-col items-center w-full">
-            {business ? (
-              <BusinessDetails business={business} />
-            ) : (
-              <p>Could not find the business, Please try again!</p>
-            )}
+            <BusinessDetails businessId={String(id)} />
           </div>
         );
       case pathName.includes(`${routes.profile}`):
         return (
           <div className="flex flex-col items-center w-full">
-            {profile ? (
-              <ProfileDetails profile={profile} />
-            ) : (
-              <p>Could not find the user, Please try again!</p>
-            )}
+            <ProfileDetails id={String(id)} />
           </div>
         );
       default:
@@ -165,8 +123,11 @@ const RightSideBar = () => {
   };
 
   return (
-    <div className="fixed w-4/12 py-5 pr-20">
+    <div className="fixed w-4/12 lg:py-5 pt-1 lg:pr-20 pr-4">
       <div className="flex flex-col items-start">
+        <div className="w-full block lg:hidden">
+          <LeftSideBar />
+        </div>
         {title && (
           <div className="rounded-xl px-5 py-3 w-full bg-default-50 text-default-600 text-sm font-semibold">
             <p>{title}</p>

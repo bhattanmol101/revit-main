@@ -41,7 +41,7 @@ export default function Businesses() {
 
   if (businesses.length === 0) {
     return (
-      <p className="text-center mt-2">
+      <p className="text-center mt-2 text-tiny sm:text-sm">
         You don't have any businesses.
         <br />
         Please create one or search for a business you want to review.

@@ -53,6 +53,7 @@ export const updateSession = async (request: NextRequest) => {
           request.nextUrl.pathname == "/terms" ||
           request.nextUrl.pathname == "/signup" ||
           request.nextUrl.pathname == "/signin" ||
+          request.nextUrl.pathname.includes("/revit/") ||
           request.nextUrl.pathname == "/api/auth/callback" ||
           request.nextUrl.pathname == "/api/webhook"
         )

@@ -31,9 +31,10 @@ export default function SearchBusinessCard({
             src: String(business.logo),
             showFallback: true,
             size: "sm",
+            name: `${business.name}`,
           }}
           description={getPostDateString(business.createdAt)}
-          name={`${business.name}`}
+          name={business.name}
         />
       </CardHeader>
       <CardBody className="overflow-visible px-3 pt-0">

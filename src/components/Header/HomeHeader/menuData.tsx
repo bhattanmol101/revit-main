@@ -5,19 +5,26 @@ const menuData: Menu[] = [
   {
     id: 1,
     title: "Home",
-    icon: <HomeIcon size={26} />,
+    icon: <HomeIcon size={26} className="h-4 sm:h-5 lg:h-full mt-1 lg:mt-0" />,
     path: "/home",
   },
   {
     id: 2,
     title: "Forums",
-    icon: <ForumIcon size={28} className="-mb-0.5" />,
+    icon: (
+      <ForumIcon size={28} className="-mb-0.5  h-5 sm:h-6 lg:h-full mt-0.5" />
+    ),
     path: "/forums",
   },
   {
     id: 3,
     title: "Business",
-    icon: <BusinessIcon size={28} className="-mb-0.5" />,
+    icon: (
+      <BusinessIcon
+        size={28}
+        className="sm:-mb-0.5 h-4 sm:h-5 lg:h-full mt-1 lg:mt-0"
+      />
+    ),
     path: "/business",
   },
 ];

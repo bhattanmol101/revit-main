@@ -1,5 +1,3 @@
-import { a } from "framer-motion/client";
-
 export const PROFILE_BUCKET = "profile-bucket";
 export const POST_BUCKET = "post-bucket";
 
@@ -9,14 +7,13 @@ export const POST_LIMIT = 5;
 
 export const QR_CODE_GEN_URL = "http://api.qrserver.com/v1/create-qr-code";
 
+export const REVITAPP_URL = "https://revitapp.in";
+
 export const INDUSTRIES = [
   { key: "fnb", label: "Food & Beverage" },
   { key: "hospitality", label: "Hospitality" },
-  { key: "it", label: "Information Technoloy" },
   { key: "travel", label: "Tour & Travel" },
   { key: "influencer", label: "Influencer" },
-  { key: "news", label: "News" },
-  { key: "music", label: "Music" },
   { key: "sports", label: "Sports & Fitness" },
 ];
 
@@ -40,7 +37,10 @@ export const VISIT = [
 export const DEFAULT_ERROR_MESSAGE = "Something went wrong, Please retry!";
 
 export const EMPTY_REVIEW_ERROR_MESSAGE =
-  "You are going to rate this post 0, please press send again to confirm!";
+  "You are going to give this post 0 rating, please press send again to confirm!";
+
+export const EMPTY_BUSINESS_REVIEW_ERROR_MESSAGE =
+  "You are going to give this business 0 rating, please press next again to confirm!";
 
 export const POST_MAX_FILE_LIMIT = 5;
 

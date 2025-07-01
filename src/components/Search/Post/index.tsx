@@ -27,6 +27,7 @@ export default function SearchPostCard({ post, cleanupFunction }: PostProps) {
             showFallback: true,
             size: "sm",
             className: "text-tiny",
+            name: `${post.userName}`,
           }}
           className="text-tiny"
           description={getPostDateString(post.createdAt)}

@@ -61,6 +61,7 @@ export default function PostById() {
           avatarProps={{
             src: String(post.userProfileImage),
             showFallback: true,
+            name: `${post.userName}`,
           }}
           description={getPostDateString(post.createdAt)}
           name={post.userName}

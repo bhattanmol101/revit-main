@@ -33,6 +33,7 @@ export default function RightPostCard({ post }: PostProps) {
           avatarProps={{
             src: String(post.userProfileImage),
             showFallback: true,
+            name: `${post.userName}`,
           }}
           description={getPostDateString(post.createdAt)}
           name={post.userName}
@@ -41,7 +42,7 @@ export default function RightPostCard({ post }: PostProps) {
       <CardBody className="overflow-visible px-3 pb-2 pt-0">
         <div className="pb-1">
           <p className="text-small text-default-600 whitespace-pre-line">
-            {post.text ? `${post.text.slice(0, 150)}...` : null}
+            {post.text ? `${post.text.slice(0, 100)}...` : null}
           </p>
           {post.hashtags.map((item) => (
             <span className="text-tiny text-default-600" key={item}>

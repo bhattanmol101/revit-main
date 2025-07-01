@@ -1,4 +1,6 @@
 import { SharedSelection } from "@heroui/react";
+import { User } from "./user";
+import { Business } from "./business";
 
 export type FnBReview = {
   rating: string;
@@ -29,6 +31,18 @@ export type BusinessForm = {
   website: string;
   contact: string;
   industry: string;
+};
+
+export type RevitForm = {
+  user?: User;
+  business: Business;
+  next: () => void;
+};
+
+export type FormProps = {
+  formId: string;
+  form: any;
+  setForm: (form: any) => void;
 };
 
 export type ForumFormProps = {

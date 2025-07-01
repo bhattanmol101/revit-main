@@ -38,8 +38,8 @@ export default function Forums() {
         <ForumCard key={forum.id} forum={forum} />
       ))
     ) : (
-      <p className="text-center pt-2">
-        No forums available please create or search to join one.
+      <p className="text-center pt-2 text-sm">
+        No forums available please create or search to join.
       </p>
     );
   };
@@ -82,11 +82,14 @@ export default function Forums() {
   }, []);
 
   return (
-    <>
+    <div className="w-full">
       <Tabs
         fullWidth
         aria-label="Forums"
         items={tabs}
+        classNames={{
+          tabContent: "text-tiny sm:text-sm",
+        }}
         variant="bordered"
         selectedKey={selected}
         onSelectionChange={onSelectionChange}
@@ -97,6 +100,6 @@ export default function Forums() {
           </Tab>
         )}
       </Tabs>
-    </>
+    </div>
   );
 }

@@ -71,9 +71,9 @@ export async function fetchBusinessReviewsById(businessId: string) {
   const rows = await db
     .select({
       id: businessReviewTable.id,
-      businessIdId: businessReviewTable.businessId,
+      businessId: businessReviewTable.businessId,
       userId: businessReviewTable.id,
-      userName: businessReviewTable.userName,
+      userName: businessReviewTable.name,
       // userProfileImage: businessReviewTable.profileImage,
       text: businessReviewTable.text,
       rating: businessReviewTable.rating,

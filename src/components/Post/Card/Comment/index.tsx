@@ -102,11 +102,13 @@ export default function PostCardComment({ post }: PostProps) {
 
   return (
     <>
-      <CardFooter className="flex flex-col border-t-1 border-default-200 py-4 px-3">
+      <CardFooter className="flex flex-col border-t-1 border-default-200 sm:py-4 sm:px-3 p-2">
         <Slider
           className="w-full"
           classNames={{
             labelWrapper: "p-1",
+            label: "text-tiny sm:text-base",
+            value: "text-tiny sm:text-base",
           }}
           color="primary"
           label={`Rate ${post.userName}'s post`}
@@ -122,6 +124,7 @@ export default function PostCardComment({ post }: PostProps) {
             <Avatar
               showFallback
               radius="full"
+              className="sm:h-10 sm:w-10 h-8 w-8"
               size="md"
               src={String(user.profileImage)}
               name={`${user.name}`}
@@ -130,6 +133,9 @@ export default function PostCardComment({ post }: PostProps) {
           <Textarea
             aria-label="review"
             errorMessage="Please enter a valid review"
+            classNames={{
+              input: "text-tiny sm:text-base",
+            }}
             minRows={1}
             name="review"
             value={text}
@@ -145,13 +151,16 @@ export default function PostCardComment({ post }: PostProps) {
             onPress={onSubmit}
             isIconOnly
           >
-            <SendIcon size={20} />
+            <SendIcon size={20} className="h-4 sm:h-6" />
           </Button>
         </div>
       </CardFooter>
       {pageState.error && (
         <Alert
           className="sm:mb-5 mb-2"
+          classNames={{
+            title: "text-tiny sm:text-base",
+          }}
           color="warning"
           title={pageState.error}
         />
@@ -162,7 +171,7 @@ export default function PostCardComment({ post }: PostProps) {
         ) : reviews.length ? (
           reviews.flatMap(renderReview)
         ) : (
-          <p className="text-center text-default-500 text-sm">
+          <p className="text-center text-default-500 sm:text-sm text-tiny">
             No reviews yet, Be the first one to review!
           </p>
         )}

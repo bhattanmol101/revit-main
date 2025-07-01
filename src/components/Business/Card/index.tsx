@@ -26,13 +26,18 @@ export default function BusinessCard({ business }: { business: Business }) {
           avatarProps={{
             src: String(business.logo),
             showFallback: true,
+            name: `${business.name}`,
+            className: "h-8 w-8 sm:h-10 sm:w-10",
+          }}
+          classNames={{
+            name: "text-tiny sm:text-base",
           }}
           description={getPostDateString(business.createdAt)}
           name={business.name}
         />
       </CardHeader>
       <CardBody className="overflow-visible px-3 pt-0">
-        <p className="text-small text-default-600 whitespace-pre-line">
+        <p className="text-tiny sm:text-small text-default-600 whitespace-pre-line">
           {business.description}
         </p>
       </CardBody>

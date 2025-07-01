@@ -37,30 +37,30 @@ const LeftSideBar = () => {
     : "";
 
   return (
-    <div className="fixed w-3/12 px-10 pt-5">
-      <div className="flex flex-col items-start gap-8">
-        <div className="rounded-xl px-5 py-7 w-full flex flex-row items-center gap-4 bg-default-50">
+    <div className="lg:fixed lg:w-3/12 w-full pb-4 lg:pb-0">
+      <div className="flex flex-col items-start lg:gap-8 gap-1">
+        <div className="rounded-xl lg:px-5 lg:py-7 px-3 py-4 w-full flex flex-row items-center gap-4 bg-default-50">
           <Avatar
-            className="w-14 h-12 rounded-full"
+            className="lg:w-14 lg:h-12 lg:block hidden rounded-full"
             src={profileImage}
             name={`${user.name}`}
             showFallback
           />
           <Button
             fullWidth
-            startContent={<StarIcon />}
+            startContent={<StarIcon className="h-4 lg:h-5" />}
             variant="faded"
             radius="full"
             onPress={onPostOpen}
           >
-            What do you want to review?
+            <p className="lg:text-sm text-tiny">Want to share a review?</p>
           </Button>
         </div>
-        <Divider />
-        <div className="flex flex-col w-full gap-8 bg-default-50 p-5 rounded-xl">
+        <Divider className="lg:block hidden" />
+        <div className="flex flex-col w-full lg:gap-8 gap-3 bg-default-50 lg:p-5 p-3 rounded-xl">
           <Button
             fullWidth
-            startContent={<AddIcon />}
+            startContent={<AddIcon className="h-4 lg:h-5" />}
             variant="faded"
             radius="full"
             onPress={onForumOpen}
@@ -69,7 +69,7 @@ const LeftSideBar = () => {
           </Button>
           <Button
             fullWidth
-            startContent={<AddIcon />}
+            startContent={<AddIcon className="h-4 lg:h-5" />}
             variant="faded"
             radius="full"
             onPress={onBusinessOpen}

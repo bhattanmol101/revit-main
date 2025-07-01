@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     rating: review.rating,
     text: review.text,
     userId: userId,
-    userName: review.name,
+    name: review.name,
     json: review.json,
   };
 

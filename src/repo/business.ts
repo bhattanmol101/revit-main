@@ -94,10 +94,11 @@ export async function fetchBusinessReviews(businessId: string) {
     .select({
       id: businessReviewTable.id,
       userId: profileTable.id,
-      userName: profileTable.name,
+      userName: businessReviewTable.name
+        ? businessReviewTable.name
+        : profileTable.name,
       userProfileImage: profileTable.profileImage,
       businessId: businessReviewTable.businessId,
-      name: businessReviewTable.userName,
       text: businessReviewTable.text,
       rating: businessReviewTable.rating,
       json: businessReviewTable.json,

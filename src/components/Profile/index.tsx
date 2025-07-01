@@ -19,6 +19,7 @@ import {
   fetchUserProfileAction,
   getUserPostsAction,
 } from "@/src/app/(site)/(home)/profile/action";
+import ProfileDetails from "./Details";
 
 function Profile() {
   const { user } = useSession();
@@ -44,7 +45,7 @@ function Profile() {
   }, []);
 
   if (loading) {
-    return <Spinner className="self-center w-full pt-2" />;
+    return <Spinner className="self-center w-full pt-2" size="sm" />;
   }
 
   const renderPosts = (post: Post) => {
@@ -53,6 +54,7 @@ function Profile() {
 
   return (
     <div className="flex flex-col items-center w-full">
+      <ProfileDetails />
       <Tabs aria-label="Options" fullWidth>
         <Tab
           key="posts"
@@ -62,7 +64,7 @@ function Profile() {
           {posts ? (
             posts.flatMap(renderPosts)
           ) : (
-            <p className="text-sm text-center">No posts yet...</p>
+            <p className="text-tiny sm:text-sm text-center">No posts yet...</p>
           )}
         </Tab>
       </Tabs>

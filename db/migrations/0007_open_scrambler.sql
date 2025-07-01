@@ -1,0 +1,1 @@
+ALTER TABLE "business_review" RENAME COLUMN "user_name" TO "name";

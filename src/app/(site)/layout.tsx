@@ -26,7 +26,7 @@ export default function RootLayout({
           >
             <SupabaseProvider>
               <Header />
-              <ToastProvider />
+              <ToastProvider placement="top-center" toastOffset={30} />
               {children}
               <Footer />
               <ScrollToTop />

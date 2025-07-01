@@ -45,7 +45,7 @@ export default function QRModal({
           Revit QR code for your business
         </ModalHeader>
         <ModalBody className="flex flex-col justify-center items-center py-4">
-          <p>
+          <p className="text-default-600">
             Download this QR code and use it to collect reviews from customers.
           </p>
           {image && (
@@ -59,7 +59,7 @@ export default function QRModal({
             />
           )}
           <p className="text-sm">
-            To customise the review form and analytics click here.
+            To customise the review form and get analytics, please contact us.
           </p>
         </ModalBody>
         <ModalFooter className="border-t-1">

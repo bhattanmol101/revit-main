@@ -87,7 +87,7 @@ export default function ForumById() {
 
   if (!forum) {
     return (
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center text-sm sm:text-base">
         <p>Could not find the forum</p>
       </div>
     );
@@ -110,21 +110,21 @@ export default function ForumById() {
   };
 
   return (
-    <div className="pt-3">
-      <div className="flex flex-col sm:w-full w-screen p-3 bg-default-50 rounded-xl">
+    <div className="sm:pt-3">
+      <div className="flex flex-col w-full p-3 bg-default-50 rounded-xl">
         <div className="flex flex-row justify-between items-start w-full">
           <div className="flex flex-row items-center ">
             <Avatar
               showFallback
               name={`${forum.name}`}
-              className="sm:w-24 sm:h-24 h-20 w-20"
+              className="sm:w-24 sm:h-24 h-14 w-14"
               src={String(forum.logo)}
             />
             <div className="pl-5">
-              <p className="sm:text-xl font-bold text-default-600">
+              <p className="sm:text-xl sm:font-bold text-default-600">
                 {forum.name}
               </p>
-              <p className="text-default-500 text-sm pt-1">
+              <p className="text-default-500 sm:text-sm text-tiny sm:pt-1">
                 Creator: {forum.userName}
               </p>
               <p className="text-default-500 text-tiny pt-0.5">
@@ -157,15 +157,17 @@ export default function ForumById() {
                       size={16}
                       className="stroke-primary text-primary font-black"
                     />
-                    <p className="text-default-600 ml-1 mt-0.5">Revit</p>
+                    <p className="text-default-600 ml-1 mt-0.5 text-tiny sm:text-base">
+                      Revit
+                    </p>
                   </div>
                 </Button>
               ))}
             <ForumMenu forum={forum} />
           </div>
         </div>
-        <Divider className="my-3" />
-        <p className="text-default-700 sm:text-sm text-sm px-2">
+        <Divider className="sm:my-3 mt-2 mb-1" />
+        <p className="text-default-700 sm:text-sm text-tiny px-2">
           {forum.description}
         </p>
       </div>
@@ -174,7 +176,7 @@ export default function ForumById() {
         ? feed.flatMap(renderPosts)
         : !feedLoading && (
             <div className="flex flex-col justify-center items-center py-3">
-              <p>
+              <p className="text-tiny sm:text-base">
                 No reviews yet
                 {forum.adminId !== user.id &&
                   (forum.joined

@@ -59,7 +59,7 @@ export const businessReviewTable = pgTable("business_review", {
   businessId: uuid("business_id")
     .notNull()
     .references(() => businessTable.id, { onDelete: "cascade" }),
-  userName: text("user_name").default(""),
+  name: text("name").default(""),
   rating: real("rating").default(0.0).notNull(),
   text: text("text").default(""),
   json: json("json").default([]),

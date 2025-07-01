@@ -31,9 +31,10 @@ export default function SearchForumCard({
             src: String(forum.logo),
             showFallback: true,
             size: "sm",
+            name: `${forum.name}`,
           }}
           description={`Since: ${getJoingDateString(forum.createdAt)}`}
-          name={`${forum.name}`}
+          name={forum.name}
         />
       </CardHeader>
       <CardBody className="overflow-visible px-3 pt-0">

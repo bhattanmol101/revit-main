@@ -200,14 +200,15 @@ const HomeHeader = () => {
             alt="logo"
             width={50}
             height={30}
+            className="w-8 sm:w-full"
           />
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden sm:flex" justify="center">
+      <NavbarContent className="flex" justify="center">
         {menuData.map((menuItem, key) => (
           <NavbarItem
             key={key}
-            className={`w-24 pt-3 h-full
+            className={`sm:w-24 w-14 pt-3 h-full
               ${pathUrl.includes(menuItem.path) && "border-b-1"}`}
           >
             <div
@@ -229,7 +230,7 @@ const HomeHeader = () => {
         <div className="relative" ref={ref}>
           <Input
             classNames={{
-              base: "sm:w-[22rem] h-11",
+              base: "lg:w-[22rem] sm:w-[14rem] sm:block hidden h-11",
               mainWrapper: "h-full",
               input: "text-small",
               inputWrapper:
@@ -256,7 +257,7 @@ const HomeHeader = () => {
             <Avatar
               isBordered
               as="button"
-              className="transition-transform hover:cursor-pointer"
+              className="transition-transform hover:cursor-pointer h-8 w-8 sm:h-10 sm:w-10"
               color="secondary"
               name={`${user.name}`}
               src={profileImage}

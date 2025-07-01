@@ -37,15 +37,20 @@ export default function ForumPostCard({ post }: PostProps) {
           avatarProps={{
             src: String(post.userProfileImage),
             showFallback: true,
+            name: `${post.userName}`,
+            className: "h-8 w-8 sm:h-10 sm:w-10",
+          }}
+          classNames={{
+            name: "text-tiny sm:text-base",
           }}
           description={getPostDateString(post.createdAt)}
-          name={`${post.userName}`}
+          name={post.userName}
         />
         <ForumPostCardMenu post={post} />
       </CardHeader>
       <CardBody className="overflow-visible px-3 pb-2 pt-0">
         <div className="pb-1">
-          <p className="text-small text-default-600 whitespace-pre-line">
+          <p className="sm:text-small text-tiny text-default-600 whitespace-pre-line">
             {post.text}
           </p>
           {post.hashtags.map((item) => (
@@ -57,7 +62,7 @@ export default function ForumPostCard({ post }: PostProps) {
         <FileSlider files={post.fileList} />
       </CardBody>
       <CardFooter className="flex flex-col p-0 border-t-1 border-default-200">
-        <div className="flex flex-row justify-between p-2 gap-4 w-full">
+        <div className="flex flex-row justify-between p-2 sm:gap-4 gap-2 w-full">
           <div className="flex flex-row items-center w-full gap-2">
             <Slider
               hideThumb
@@ -68,15 +73,17 @@ export default function ForumPostCard({ post }: PostProps) {
               size="sm"
               value={rating}
             />
-            <p className="text-default-600 text-small flex flex-row items-center">
+            <p className="text-default-600 sm:text-small text-tiny flex flex-row items-center">
               <span>{rating}&nbsp;</span>
               <span>({post.totalReviews})</span>
             </p>
           </div>
           <Button size="sm" variant="bordered" onPress={handleRevit}>
-            <div className="flex flex-row items-center justify-center px-10">
-              <StarIcon size={20} />
-              <p className="text-default-700 text-sm ml-1">Revit</p>
+            <div className="flex flex-row items-center justify-center sm:px-10 px-6">
+              <StarIcon size={20} className="h-4 sm:h-6" />
+              <p className="text-default-700 text-tiny ml-1 sm:text-sm">
+                Revit
+              </p>
             </div>
           </Button>
         </div>

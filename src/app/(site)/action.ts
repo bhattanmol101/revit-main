@@ -1,7 +1,6 @@
 "use server";
 
 import { ContactForm } from "@/src/types/form";
-import { i } from "framer-motion/client";
 import nodemailer from "nodemailer";
 
 export const sendEmail = async (contact: ContactForm) => {

@@ -22,6 +22,11 @@ export default function ForumCard({ forum }: { forum: Forum }) {
           avatarProps={{
             src: String(forum.logo),
             showFallback: true,
+            name: `${forum.name}`,
+            className: "h-8 w-8 sm:h-10 sm:w-10",
+          }}
+          classNames={{
+            name: "text-tiny sm:text-base",
           }}
           description={`Since: ${getJoingDateString(forum.createdAt)}`}
           name={forum.name}
@@ -29,7 +34,7 @@ export default function ForumCard({ forum }: { forum: Forum }) {
       </CardHeader>
       <Divider className="mb-1" />
       <CardBody className="overflow-visible px-3 pt-0">
-        <p className="text-small text-default-600 whitespace-pre-line">
+        <p className="sm:text-small text-tiny text-default-600 whitespace-pre-line">
           {forum.description}
         </p>
       </CardBody>

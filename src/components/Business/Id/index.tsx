@@ -30,6 +30,7 @@ import { useBusinessStore } from "@/src/app/store/Business/Feed";
 import { BusinessReview } from "@/src/types/review";
 import BusinessReviewCard from "../Review";
 import BusinessReviewSkeleton from "../../Common/Skeletons/Business/Review";
+import BusinessDetails from "./Business";
 
 export default function BusinessReviews() {
   const { user } = useSession();
@@ -69,7 +70,9 @@ export default function BusinessReviews() {
   if (feed.length === 0) {
     return (
       <div className="flex flex-col justify-center items-center py-3">
-        <p>No reviews yet, Be the first one to revit.</p>
+        <p className="text-tiny sm:text-sm">
+          No reviews yet, Be the first one to revit.
+        </p>
       </div>
     );
   }
@@ -77,5 +80,10 @@ export default function BusinessReviews() {
     return <BusinessReviewCard review={review} key={review.id} />;
   };
 
-  return <>{feed.map(renderPosts)}</>;
+  return (
+    <>
+      <BusinessDetails businessId={String(id)} />
+      {feed.map(renderPosts)}
+    </>
+  );
 }
