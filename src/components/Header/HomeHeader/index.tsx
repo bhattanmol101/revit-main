@@ -200,7 +200,7 @@ const HomeHeader = () => {
             alt="logo"
             width={50}
             height={30}
-            className="w-8 sm:w-full"
+            className="w-8 sm:w-12"
           />
         </NavbarBrand>
       </NavbarContent>

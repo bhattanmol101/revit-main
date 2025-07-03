@@ -117,7 +117,7 @@ export default function BusinessReviewCard({
             className: "h-8 w-8 sm:h-10 sm:w-10",
           }}
           classNames={{
-            name: "text-tiny sm:text-base",
+            name: "text-tiny sm:text-sm",
           }}
           description={getPostDateString(review.createdAt)}
           name={`${review.userName}`}

@@ -126,6 +126,10 @@ export default function ForumPostCardComment({ post }: PostProps) {
             errorMessage="Please enter a valid review"
             minRows={1}
             name="review"
+            classNames={{
+              input: "text-sm",
+            }}
+            className="text-sm"
             value={text}
             placeholder="What do you think about it...."
             type="text"

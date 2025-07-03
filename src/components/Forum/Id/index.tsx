@@ -87,7 +87,7 @@ export default function ForumById() {
 
   if (!forum) {
     return (
-      <div className="flex flex-col justify-center items-center text-sm sm:text-base">
+      <div className="flex flex-col justify-center items-center text-tiny sm:text-sm">
         <p>Could not find the forum</p>
       </div>
     );
@@ -157,7 +157,7 @@ export default function ForumById() {
                       size={16}
                       className="stroke-primary text-primary font-black"
                     />
-                    <p className="text-default-600 ml-1 mt-0.5 text-tiny sm:text-base">
+                    <p className="text-default-600 ml-1 mt-0.5 text-tiny sm:text-sm">
                       Revit
                     </p>
                   </div>
@@ -176,7 +176,7 @@ export default function ForumById() {
         ? feed.flatMap(renderPosts)
         : !feedLoading && (
             <div className="flex flex-col justify-center items-center py-3">
-              <p className="text-tiny sm:text-base">
+              <p className="text-tiny sm:text-sm">
                 No reviews yet
                 {forum.adminId !== user.id &&
                   (forum.joined

@@ -22,15 +22,15 @@ function ProfileDetails({ id }: { id: string }) {
         setProfile(resp.profile);
       }
     }
-
-    useEffect(() => {
-      fetchUserProfile();
-    }, []);
-
-    if (loading) {
-      return <Spinner className="w-full self-center" size="sm" />;
-    }
   };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  if (loading) {
+    return <Spinner className="w-full self-center" size="sm" />;
+  }
 
   if (!profile) {
     return (

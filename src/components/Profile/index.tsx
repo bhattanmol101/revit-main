@@ -1,24 +1,12 @@
 "use client";
 
-import { Avatar } from "@heroui/avatar";
-import { Button } from "@heroui/button";
 import { Tabs, Tab } from "@heroui/tabs";
-import { useDisclosure } from "@heroui/modal";
 import React, { useEffect, useState } from "react";
-import { Divider } from "@heroui/divider";
 import { Spinner } from "@heroui/spinner";
-import { useRouter } from "next/navigation";
-import { User } from "@/src/types/user";
 import { Post } from "@/src/types/post";
-import { EditIcon } from "../Icons";
-import { getJoingDateString, getPostDateString } from "@/src/utils/date-utils";
 import PostCard from "../Post/Card";
-import EditProfileModal from "./Edit";
 import { useSession } from "../Provider";
-import {
-  fetchUserProfileAction,
-  getUserPostsAction,
-} from "@/src/app/(site)/(home)/profile/action";
+import { getUserPostsAction } from "@/src/app/(site)/(home)/profile/action";
 import ProfileDetails from "./Details";
 
 function Profile() {
@@ -52,9 +40,13 @@ function Profile() {
     return <PostCard key={post.id} post={post} />;
   };
 
+  console.log("User posts:", user);
+
   return (
     <div className="flex flex-col items-center w-full">
-      <ProfileDetails />
+      <div className="block sm:hidden">
+        <ProfileDetails id={user.id} />
+      </div>
       <Tabs aria-label="Options" fullWidth>
         <Tab
           key="posts"

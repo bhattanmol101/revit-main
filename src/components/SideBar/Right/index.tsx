@@ -103,10 +103,10 @@ const RightSideBar = () => {
             <BusinessDetails businessId={String(id)} />
           </div>
         );
-      case pathName.includes(`${routes.profile}`):
+      case pathName === routes.profile:
         return (
           <div className="flex flex-col items-center w-full">
-            <ProfileDetails id={String(id)} />
+            <ProfileDetails id={user.id} />
           </div>
         );
       default:

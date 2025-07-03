@@ -14,7 +14,7 @@ export const ReviewItem = ({ review }: { review: Review }) => {
       <div className="mt-1">
         <Avatar
           showFallback
-          className="h-8 w-8 sm:h-8 sm:w-10"
+          className="h-8 w-8 sm:h-10 sm:w-10"
           name={`${review.userName}`}
           src={String(review.userProfileImage)}
         />

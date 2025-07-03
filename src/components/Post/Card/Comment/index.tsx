@@ -107,8 +107,8 @@ export default function PostCardComment({ post }: PostProps) {
           className="w-full"
           classNames={{
             labelWrapper: "p-1",
-            label: "text-tiny sm:text-base",
-            value: "text-tiny sm:text-base",
+            label: "text-tiny sm:text-sm",
+            value: "text-tiny sm:text-sm",
           }}
           color="primary"
           label={`Rate ${post.userName}'s post`}
@@ -134,7 +134,7 @@ export default function PostCardComment({ post }: PostProps) {
             aria-label="review"
             errorMessage="Please enter a valid review"
             classNames={{
-              input: "text-tiny sm:text-base",
+              input: "text-tiny sm:text-sm",
             }}
             minRows={1}
             name="review"
@@ -159,7 +159,7 @@ export default function PostCardComment({ post }: PostProps) {
         <Alert
           className="sm:mb-5 mb-2"
           classNames={{
-            title: "text-tiny sm:text-base",
+            title: "text-tiny sm:text-sm",
           }}
           color="warning"
           title={pageState.error}

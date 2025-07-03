@@ -135,7 +135,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
             errorMessage="Please enter a valid review"
             minRows={1}
             classNames={{
-              input: "text-tiny sm:text-base",
+              input: "text-tiny sm:text-sm",
             }}
             name="review"
             value={text}
@@ -160,7 +160,7 @@ export default function ForumPostCardComment({ post }: PostProps) {
           className="sm:mb-5 mb-2"
           color="warning"
           classNames={{
-            title: "text-tiny sm:text-base",
+            title: "text-tiny sm:text-sm",
           }}
           title={pageState.error}
         />

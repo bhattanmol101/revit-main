@@ -82,7 +82,9 @@ export default function BusinessReviews() {
 
   return (
     <>
-      <BusinessDetails businessId={String(id)} />
+      <div className="block sm:hidden">
+        <BusinessDetails businessId={String(id)} />
+      </div>
       {feed.map(renderPosts)}
     </>
   );
