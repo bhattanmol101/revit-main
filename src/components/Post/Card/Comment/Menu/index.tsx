@@ -44,7 +44,7 @@ function PostReviewMenu({
           variant="light"
           onPress={() => {}}
         >
-          <MenuIcon size={18} />
+          <MenuIcon className="h-5 sm:h-8" size={18} />
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions" onAction={onMenuAction}>

@@ -1,4 +1,4 @@
-import Profile from "@/src/components/Profile";
+import ProfileById from "@/src/components/Profile/id";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,6 +8,6 @@ export const metadata: Metadata = {
   description: "This is Profile for Revit User",
 };
 
-export default function ProfilePage() {
-  return <Profile />;
+export default function ProfileByIdPage() {
+  return <ProfileById />;
 }

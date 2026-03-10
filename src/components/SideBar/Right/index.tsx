@@ -72,6 +72,9 @@ const RightSideBar = () => {
       case pathName === routes.business:
         setTitle("");
         break;
+      case pathName.includes(routes.profile):
+        setTitle("");
+        break;
       default:
         console.log("default");
     }
@@ -107,6 +110,12 @@ const RightSideBar = () => {
         return (
           <div className="flex flex-col items-center w-full">
             <ProfileDetails id={user.id} />
+          </div>
+        );
+      case pathName.includes(routes.profile):
+        return (
+          <div className="flex flex-col items-center w-full">
+            <ProfileDetails id={String(id)} />
           </div>
         );
       default:

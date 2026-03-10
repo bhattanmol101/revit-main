@@ -53,7 +53,7 @@ export default function Businesses() {
       <Tabs aria-label="Options" fullWidth>
         <Tab
           key="business"
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center text-tiny sm:text-sm"
           title="Your Businesses"
         >
           {businesses.flatMap(renderBusiness)}

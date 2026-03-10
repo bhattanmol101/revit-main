@@ -5,8 +5,14 @@ import { EditIcon } from "../../Icons";
 import { getJoingDateString, getPostDateString } from "@/src/utils/date-utils";
 import EditProfileModal from "../Edit";
 import { fetchUserProfileAction } from "@/src/app/(site)/(home)/profile/action";
+import { useSession } from "../../Provider";
 
 function ProfileDetails({ id }: { id: string }) {
+  const { user } = useSession();
+  if (!user) {
+    return;
+  }
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [loading, setLoading] = useState<boolean>();
@@ -17,10 +23,10 @@ function ProfileDetails({ id }: { id: string }) {
       setLoading(true);
       const resp = await fetchUserProfileAction(id);
 
-      setLoading(false);
       if (resp.profile) {
         setProfile(resp.profile);
       }
+      setLoading(false);
     }
   };
 
@@ -56,16 +62,18 @@ function ProfileDetails({ id }: { id: string }) {
             <p className="lg:text-xl font-bold text-default-800">
               {profile.name}
             </p>
-            <Button
-              isIconOnly
-              color="default"
-              size="sm"
-              spinnerPlacement="end"
-              className="h-6 w-4 lg:h-8 lg:w-8"
-              onPress={onOpen}
-            >
-              <EditIcon size={20} className="h-4 lg:h-6" />
-            </Button>
+            {user.id === id && (
+              <Button
+                isIconOnly
+                color="default"
+                size="sm"
+                spinnerPlacement="end"
+                className="h-6 w-4 lg:h-8 lg:w-8"
+                onPress={onOpen}
+              >
+                <EditIcon size={20} className="h-4 lg:h-6" />
+              </Button>
+            )}
           </div>
           <div className="flex lg:flex-row flex-col lg:items-center items-start lg:gap-3 gap-1 text-default-600">
             <p className="lg:text-sm text-tiny">

@@ -258,7 +258,9 @@ const HomeHeader = () => {
               isBordered
               as="button"
               className="transition-transform hover:cursor-pointer h-8 w-8 sm:h-10 sm:w-10"
+              classNames={{ name: "text-tiny sm:text-sm" }}
               color="secondary"
+              showFallback
               name={`${user.name}`}
               src={profileImage}
             />

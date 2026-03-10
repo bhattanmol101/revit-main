@@ -17,17 +17,24 @@ import FileSlider from "../../Common/File/Slider";
 import { useState } from "react";
 import PostCardComment from "./Comment";
 import PostCardMenu from "./Menu";
+import { useRouter } from "next/navigation";
 
 type PostProps = {
   post: Post;
 };
 
 export default function PostCard({ post }: PostProps) {
+  const router = useRouter();
+
   const rating = getRating(post);
 
   const [openComments, setOpenComments] = useState<boolean>(false);
 
   const handleRevit = () => setOpenComments(!openComments);
+
+  const handleUserClick = () => {
+    router.push(`/profile/${post?.userId}`);
+  };
 
   return (
     <Card className="w-full my-1">
@@ -43,7 +50,14 @@ export default function PostCard({ post }: PostProps) {
             name: "text-tiny sm:text-sm",
           }}
           description={getPostDateString(post.createdAt)}
-          name={post.userName}
+          name={
+            <p
+              className="hover:cursor-pointer hover:underline"
+              onClick={handleUserClick}
+            >
+              {post.userName}
+            </p>
+          }
         />
         <PostCardMenu post={post} />
       </CardHeader>

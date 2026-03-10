@@ -15,7 +15,7 @@ import {
 import { StarIcon } from "../../Icons";
 import FileSlider from "../../Common/File/Slider";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getPostByIdAction } from "@/src/app/(site)/(home)/posts/action";
 import PostSkeleton from "../../Common/Skeletons/Post";
 import PostCardMenu from "../Card/Menu";
@@ -23,12 +23,17 @@ import PostCardComment from "../Card/Comment";
 
 export default function PostById() {
   const { id } = useParams();
+  const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState<Post>();
   const [openComments, setOpenComments] = useState<boolean>(false);
 
   const handleRevit = () => setOpenComments(!openComments);
+
+  const handleUserClick = () => {
+    router.push(`/profile/${post?.userId}`);
+  };
 
   const fetchPost = async () => {
     const resp = await getPostByIdAction(String(id), "");

@@ -29,6 +29,7 @@ export const signInAction = async ({ email, password }: SignupUser) => {
 
 export const signInWithGoogleAction = async () => {
   const origin = (await headers()).get("origin");
+  console.log(origin);
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -38,6 +39,6 @@ export const signInWithGoogleAction = async () => {
   });
 
   if (data.url) {
-    redirect(data.url);
+    // redirect(data.url);
   }
 };

@@ -47,7 +47,7 @@ function BusinessReviewMenu({ review }: { review: BusinessReview }) {
           variant="light"
           onPress={() => {}}
         >
-          <MenuIcon size={24} />
+          <MenuIcon className="h-5 sm:h-8" size={24} />
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions" onAction={onMenuAction}>

@@ -4,15 +4,15 @@ import { Tabs, Tab } from "@heroui/tabs";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "@heroui/spinner";
 import { Post } from "@/src/types/post";
-import PostCard from "../Post/Card";
-import { useSession } from "../Provider";
+import PostCard from "../../Post/Card";
 import { getUserPostsAction } from "@/src/app/(site)/(home)/profile/action";
-import ProfileDetails from "./Details";
+import ProfileDetails from "../Details";
+import { useParams } from "next/navigation";
 
-function Profile() {
-  const { user } = useSession();
+function ProfileById() {
+  const { id } = useParams();
 
-  if (!user) {
+  if (!id) {
     return;
   }
 
@@ -20,12 +20,12 @@ function Profile() {
   const [posts, setPosts] = useState<Post[]>();
 
   const fetchUserPosts = async () => {
-    const postResp = await getUserPostsAction(user.id);
+    const postResp = await getUserPostsAction(String(id));
 
-    setLoading(false);
     if (postResp.posts) {
       setPosts(postResp.posts);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function Profile() {
   return (
     <div className="flex flex-col items-center w-full">
       <div className="block sm:hidden w-full mb-2">
-        <ProfileDetails id={user.id} />
+        <ProfileDetails id={String(id)} />
       </div>
       <Tabs aria-label="Options" fullWidth>
         <Tab
@@ -62,4 +62,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfileById;
